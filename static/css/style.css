@@ -1,0 +1,14 @@
+.hero {
+    height: 50vh;
+    width: auto;
+    overflow: hidden;
+    /* border: 1px solid red; */
+ }
+
+ .hero img {
+    background-color: #cccccc;
+    height: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+ }
