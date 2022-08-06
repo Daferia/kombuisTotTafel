@@ -4,14 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <title>Kombuis Tot Tafel</title>
 </head>
 <body>
-
+    <header>
+        <div class="row">
+        <nav>
+            <div class="nav-wrapper center-align">
+            <a href="#!" class="brand-logo">Kombuis tot Tafel</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars"></i></a></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="{{ url_for('get_recipes') }}">recipes</a></li>
+                <li><a href="collapsible.html">Javascript</a></li>
+                <li><a href="mobile.html">Mobile</a></li>
+            </ul>
+            </div>
+        </nav>
+        
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="sass.html">Sass</a></li>
+            <li><a href="{{ url_for('get_recipes') }}">recipes</a></li>
+            <li><a href="collapsible.html">Javascript</a></li>
+            <li><a href="mobile.html">Mobile</a></li>
+        </ul>
+    </div>
+    <div class="hero">
+        <img class="responsive-img" src="{{ url_for('static', filename='images/teodor-skrebnev-DcIZJsskTfg-unsplash.jpg') }}" alt="" srcset="">
+    </div>
+    </header>
+    <div class="container">
     <h1>Testing routes on Home</h1>
 
     {% block content %}
     {% endblock %}
-    
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
