@@ -24,10 +24,16 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/get_recipes")
-def get_recipes():
+@app.route("/recipes")
+def recipes():
     recipes = mongo.db.recipes.find()
     return render_template("recipes.html", recipes=recipes)
+
+
+@app.route("/view_recipe/<recipe_id>")
+def view_recipe(recipe_id):
+    recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+    return render_template("view_recipe.html", recipe=recipe)
 
 
 if __name__ == "__main__":
