@@ -21,3 +21,13 @@ body {
     display: flex;
     justify-content: space-between;
  }
+
+ .details-table {
+   line-height: 0.1;
+   border-top: 1px solid black;
+   border-bottom: 1px solid black;
+ }
+
+ .list-spacing {
+   margin: 1em 0;
+ }
