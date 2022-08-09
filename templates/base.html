@@ -1,71 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+        type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <title>Kombuis Tot Tafel</title>
 </head>
+
 <body>
     <header>
         <div class="row">
-        <nav>
-            <div class="nav-wrapper red darken-4">
-            <a href="{{ url_for('home') }}" class="brand-logo">Kombuis tot Tafel</a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars"></i></a></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('recipes') }}">Recipes</a></li>
-                <li><a href="collapsible.html">Javascript</a></li>
-                <li><a href="mobile.html">Mobile</a></li>
+            <nav>
+                <div class="nav-wrapper red darken-4">
+                    <a href="{{ url_for('home') }}" class="brand-logo">Kombuis tot Tafel</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars"></i></a></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('recipes') }}">Recipes</a></li>
+                        <li><a href="collapsible.html">Javascript</a></li>
+                        <li><a href="mobile.html">Mobile</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <ul class="sidenav" id="mobile-demo">
+                <li><a class="red-text darken-4" href="{{ url_for('home') }}">Home</a></li>
+                <li><a class="red-text darken-4" href="{{ url_for('recipes') }}">Recipes</a></li>
+                <li><a class="red-text darken-4" href="collapsible.html">Javascript</a></li>
+                <li><a class="red-text darken-4" href="mobile.html">Mobile</a></li>
             </ul>
-            </div>
-        </nav>
-        
-        <ul class="sidenav" id="mobile-demo">
-            <li><a class="red-text darken-4" href="{{ url_for('home') }}">Home</a></li>
-            <li><a class="red-text darken-4"  href="{{ url_for('recipes') }}">Recipes</a></li>
-            <li><a class="red-text darken-4"  href="collapsible.html">Javascript</a></li>
-            <li><a class="red-text darken-4"  href="mobile.html">Mobile</a></li>
-        </ul>
-    </div>
+        </div>
 
     </header>
     <main class="container">
-    <h1>Testing routes on Home</h1>
 
-    {% block content %}
-    {% endblock %}
+        {% block content %}
+        {% endblock %}
+
     </main>
-<footer class="page-footer red darken-4">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text center-align">Footer Content</h5>
-          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+    <footer class="page-footer red darken-4">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text center-align">Footer Content</h5>
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
+                        content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text center-align">Lets get social!</h5>
+                    <ul class="social-links">
+                        <li><a class="grey-text text-lighten-3 hoverable" href="https://www.facebook.com"
+                                target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+                        <li><a class="grey-text text-lighten-3 hoverable" href="#!"><i
+                                    class="fa-brands fa-square-instagram"></i></a></li>
+                        <li><a class="grey-text text-lighten-3 hoverable" href="#!"><i
+                                    class="fa-brands fa-pinterest"></i></a></li>
+                        <li><a class="grey-text text-lighten-3 hoverable" href="#!"><i
+                                    class="fa-brands fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col l4 offset-l2 s12">
-          <h5 class="white-text center-align">Lets get social!</h5>
-          <ul class="social-links">
-            <li><a class="grey-text text-lighten-3 hoverable" href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a class="grey-text text-lighten-3 hoverable" href="#!"><i class="fa-brands fa-square-instagram"></i></a></li>
-            <li><a class="grey-text text-lighten-3 hoverable" href="#!"><i class="fa-brands fa-pinterest"></i></a></li>
-            <li><a class="grey-text text-lighten-3 hoverable" href="#!"><i class="fa-brands fa-youtube"></i></a></li>
-          </ul>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2022 Daferia Designs
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      © 2022 Daferia Designs
-      <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-      </div>
-    </div>
-  </footer>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
