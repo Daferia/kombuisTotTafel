@@ -2,15 +2,13 @@
 {% block content %}
 
 <h2>{{ recipe.recipe_name|title }}</h2>
-{{ recipe.recipe_description }}
-{{ recipe.prep_time }}
 <div class="row">
   <div class="col s12 m6 l4">
   </div>
 </div>
 <br>
 <div class="row">
-  <form class="col s12">
+  <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">
     <div class="row">
       <div class="input-field inline col s6">
         <input id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name|title }}" type="text" class="validate"
@@ -28,17 +26,39 @@
       </div>
     </div>
     <div class="row">
-      <div class="input-field inline col s3">
+      <div class="input-field inline col s6">
         <input id="prep_time" name="prep_time" value="{{ recipe.prep_time }}" type="number" min="1" class="validate"
           required>
         <label for="prep_time">Preparation Time <em><small>(in mintues)</small></em></label>
       </div>
-      <div class="input-field inline col s3">
+      <div class="input-field inline col s6">
         <input id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" type="number" min="1"
           class="validate" required>
         <label for="cooking_time">Cooking Time <em><small>(in mintues)</small></em></label>
       </div>
     </div>
+    <div class="row">
+      <div class="input-field inline col s6">
+        <input id="" name="servings" value="{{ recipe.servings }}" type="number" min="1" class="validate"
+          required>
+        <label for="servings">Serves <em><small>(people)</small></em></label>
+      </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+      <select id="category_name" name="category_name" class="validate" required>
+        <option value="" disabled>Select a Category</option>
+        {% for category in categories %}
+            {% if category.category_name == recipe.category_name %}
+            <option value="{{ category.category_name}}" selected>{{ category.category_name}}</option>
+            {% else %}
+            <option value="{{ category.category_name}}">{{ category.category_name}}</option>
+            {% endif %}
+        {% endfor %}
+      </select>
+      <label for="category_name">{{ recipe.category_name }}</label>
+  </div>
+</div>
     <div class="row">
       <div class="col s12">
         <div class="row">
@@ -63,6 +83,24 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="input-field inline col s12">
+        <input id="image_url" name="image_url" value="{{ recipe.image_url }}" type="text" class="validate">
+        <label for="image_url">Recipe Image URL</label>
+      </div>
+    </div>
+    <!-- submit button -->
+    <div class="row">
+      <div class="col s12 center-align">
+          <!-- cancel button -->
+          <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}" class="waves-effect waves-light btn-small red accent-4">
+              Cancel <i class="fas fa-times-circle right"></i>
+          </a>
+          <button type="submit" class="waves-effect waves-light btn-small green accent-4">
+              Update <i class="fas fa-edit right"></i>
+          </button>
+      </div>
+  </div>
   </form>
 </div>
 
