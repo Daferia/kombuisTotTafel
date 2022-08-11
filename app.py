@@ -1,7 +1,7 @@
 import os
 from flask import (
     Flask, flash, render_template, 
-    redirect, session, url_for)
+    redirect, session, url_for, request)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 if os.path.exists("env.py"):
@@ -36,10 +36,27 @@ def view_recipe(recipe_id):
     return render_template("view_recipe.html", recipe=recipe)
 
 
-@app.route("/edit_recipe/<recipe_id>")
+@app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
-    return render_template("edit_recipe.html", recipe=recipe)
+
+    if request.method == "POST":
+        submit = { "$set": {
+            "recipe_name": request.form.get("recipe_name"),
+            "recipe_description": request.form.get("recipe_description"),
+            "category_name": request.form.get("category_name"),
+            "prep_time": request.form.get("prep_time"),
+            "cooking_time": request.form.get("cooking_time"),
+            "servings": request.form.get("servings"),
+            "ingredients": request.form.get("ingredients"),
+            "method": request.form.get("method"),
+        }}
+        mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, submit)
+        flash("Recipe has been added")
+        return redirect(url_for("recipes"))
+    
+    categories = mongo.db.categories.find().sort("category_name", 1)
+    return render_template("edit_recipe.html", recipe=recipe, categories=categories)
 
 
 if __name__ == "__main__":
