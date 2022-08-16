@@ -52,8 +52,8 @@ def edit_recipe(recipe_id):
             "method": request.form.get("method"),
         }}
         mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, submit)
-        flash("Recipe has been added")
-        return redirect(url_for("recipes"))
+        flash("Recipe has been updated")
+        return redirect(url_for("view_recipe", recipe_id=recipe_id))
     
     categories = mongo.db.categories.find().sort("category_name", 1)
     return render_template("edit_recipe.html", recipe=recipe, categories=categories)
