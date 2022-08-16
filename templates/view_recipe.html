@@ -2,9 +2,9 @@
 {% block content %}
 
   <h2 class="center-align">{{ recipe.recipe_name|title }}</h2>
-  <div class="row details-table">
-    <div class="col s12 m8 offset-m2 ">
-      <table class="responsive-table striped centered ">
+  <div class="row">
+    <div class="col s12 m12">
+      <table class="responsive-table centered recipe-details">
         <thead>
           <tr>
             <th>Prep Time <em><small>(in minutes)</small></em></th>
@@ -25,8 +25,8 @@
       </table>
     </div>
   </div>
-  <div class="row">
-    <div class="col s12 m6 l4">
+  <div class="row vertical-align center-align">
+    <div class="col s12 m6">
       <img class="activator responsive-img materialboxed z-depth-3"
         src="{{ recipe.image_url }}"
         alt="Photo of a {{ recipe.recipe_name|lower }}">
@@ -59,8 +59,8 @@
   <!-- Edit and Print buttons -->
   <div class="row">
     <div class="col s12 center-align">
-      <a class="waves-effect waves-light btn-small green accent-4" href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}"><i class="fa-solid fa-pencil"></i> Edit Recipe</a>
-      <a class="waves-effect waves-light btn-small red accent-4" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Recipe</a>
+      <a class="waves-effect waves-light btn-small green btn-radius" href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">Edit Recipe <i class="fa-solid fa-pencil"></i></a>
+      <a class="waves-effect waves-light btn-small red accent-4 btn-radius" onclick="window.print()">Print Recipe <i class="fa-solid fa-print"></i></a>
     </div>
   </div>
 
