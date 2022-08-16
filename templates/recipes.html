@@ -3,30 +3,38 @@
 
 <h2>Recipes</h2>
 <div class="row">
-    {% for recipe in recipes %}
+  {% for recipe in recipes %}
 
-    <div class="col s12 m6 l4">
-        <div class="card small sticky-action hoverable z-depth-2">
-            <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator responsive-img"
-                    src='https://www.avantgardevegan.com/wp-content/uploads/2022/07/0F85C32A-FED7-4F53-B028-4396619EFA97-819x1024.jpg'>
-            </div>
-            <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">{{ recipe.recipe_name|title }}<i
-                        class="fa-solid fa-circle-chevron-up fa-pull-right"></i></span>
-            </div>
-            <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">{{ recipe.recipe_name|title }} {{recipe.recipe_id}}<i
-                        class="fa-solid fa-circle-chevron-down fa-pull-right"></i></span>
-                <p>{{ recipe.recipe_description|capitalize }}</p>
-            </div>
-            <div class="card-action">
-                <a class="btn-small" href="{{ url_for('view_recipe', recipe_id=recipe._id) }}">View Recipe</a>
-            </div>
+  <div class="col s12 m6">
+    <div class="card hoverable z-depth-2">
+      <div class="card-image">
+        <img class="activator responsive-img materialboxed"
+        src="{{ recipe.image_url }}"
+        alt="Photo of a {{ recipe.recipe_name|lower }}">
+
+        <span class="col s12 card-title black-text white lighten-2 center-align">
+          <h4>{{ recipe.recipe_name|title }}</h4>
+        </span>
+      </div>
+      <div class="row center card-extended">
+        <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}"
+          class="btn waves-effect waves-light green btn-radius">See Recipe <i class="fa-solid fa-eye"></i></a>
+
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger center green btn-radius" href="#{{ recipe.recipe_name }}">Quck Description</a>
+
+      <!-- Modal Structure -->
+      <div id="{{ recipe.recipe_name }}" class="modal modal-fixed-footer modal-resize">
+        <div class="modal-content">
+          <h4>{{ recipe.recipe_name|title }}</h4>
+          <p>{{ recipe.recipe_description|capitalize }}</p>
         </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+      </div>
+
+  </div></div>
     </div>
     {% endfor %}
-</div>
-<br>
-
 {% endblock %}
