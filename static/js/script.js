@@ -7,9 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
   let materialboxed = document.querySelectorAll('.materialboxed');
   M.Materialbox.init(materialboxed);    
 
-  // adding a floating action button
-  let actionButton = document.querySelectorAll('.fixed-action-btn');
-  M.FloatingActionButton.init(actionButton);
+  // adding modal initialization
+  let modal = document.querySelectorAll('.modal');
+  M.Modal.init(modal);
+
 });
 
 
@@ -40,5 +41,4 @@ function validateMaterializeSelect() {
             });
         }
     });
-}
-});
+};
