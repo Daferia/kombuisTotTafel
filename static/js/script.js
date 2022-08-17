@@ -11,8 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
   let modal = document.querySelectorAll('.modal');
   M.Modal.init(modal);
 
-});
+  // Initialize select script
+  let select = document.querySelectorAll('select');
+  M.FormSelect.init(select);
 
+});
 
 
 validateMaterializeSelect();
