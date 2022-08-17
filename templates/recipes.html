@@ -1,40 +1,70 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Recipes</h2>
+<h2 class="center-align">Recipes</h2>
 <div class="row">
   {% for recipe in recipes %}
-
-  <div class="col s12 m6">
-    <div class="card hoverable z-depth-2">
-      <div class="card-image">
-        <img class="activator responsive-img materialboxed"
-        src="{{ recipe.image_url }}"
-        alt="Photo of a {{ recipe.recipe_name|lower }}">
-
-        <span class="col s12 card-title black-text white lighten-2 center-align">
-          <h4>{{ recipe.recipe_name|title }}</h4>
+  <div class="col s12 m6 l4">
+    <div class="card hoverable z-depth-2 item-radius">
+      <div class="card-image card-responsive item-radius">
+        {% if recipe.image_url == "" %}
+        <img class="activator materialboxed recipe-img placeholder-img"
+         src="https://images.unsplash.com/photo-1531928351158-2f736078e0a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
+        alt="Photo of empty plate with a sad face">
+        {% else %}
+        <img class="activator materialboxed recipe-img" src="{{ recipe.image_url }}"
+          alt="Photo of a {{ recipe.recipe_name|lower }}">
+          {% endif %}
+        <span class="col s12 card-title black-text white lighten-2 center-align card-extended">
+          <h6>{{ recipe.recipe_name|title }}</h6>
         </span>
       </div>
-      <div class="row center card-extended">
+      <div class="row center card-details">
         <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}"
-          class="btn waves-effect waves-light green btn-radius">See Recipe <i class="fa-solid fa-eye"></i></a>
-
-      <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn modal-trigger center green btn-radius" href="#{{ recipe.recipe_name }}">Quck Description</a>
-
-      <!-- Modal Structure -->
-      <div id="{{ recipe.recipe_name }}" class="modal modal-fixed-footer modal-resize">
-        <div class="modal-content">
-          <h4>{{ recipe.recipe_name|title }}</h4>
-          <p>{{ recipe.recipe_description|capitalize }}</p>
-        </div>
-        <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+          class="btn-small waves-effect waves-light green btn-radius">View <i class="fa-solid fa-eye"></i></a>
+  
+        <!-- Modal Trigger -->
+        <a class="waves-effect waves-light btn-small modal-trigger center green item-radius"
+          href="#{{ recipe.recipe_name }}">Quck Description</a>
+  
+        <!-- Modal Structure -->
+        <div id="{{ recipe.recipe_name }}" class="modal modal-fixed-footer modal-resize item-radius">
+          <div class="modal-content">
+            <h6 class="red-text">{{ recipe.recipe_name|title }}</h6>
+            <p>{{ recipe.recipe_description|capitalize }}</p>
+            <div class="col s12 m12">
+              <table class="centered recipe-details">
+                <tr>
+                  <th>Prep Time <em><small>(mins)</small></em></th>
+                  <td>{{ recipe.prep_time }}</td>
+                </tr>
+                <tr>
+                  <th >Cooking Time <em><small>(mins)</small></em></th>
+                  <td>{{ recipe.cooking_time }}</td>
+                </tr>
+                <tr>
+                  <th>Serves</th>
+            
+                  <td>{{ recipe.servings }} people</td>
+                </tr>
+                <tr>
+                  <th>Category</th>
+                  <td>{{ recipe.category_name }}</td>
+                </tr>
+                <tr>
+                  <th>Added By</th>
+                  <td>{{ recipe.added_by }}</td>
+                </tr>
+              </table>
+            </div>
+            </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
         </div>
       </div>
-
-  </div></div>
     </div>
+  </div>
     {% endfor %}
+    </div>  
 {% endblock %}
