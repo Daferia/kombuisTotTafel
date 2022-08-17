@@ -2,19 +2,16 @@ body {
    background-color: whitesmoke;
 }
 
-.hero {
-    height: 50vh;
-    width: auto;
-    overflow: hidden;
-    /* border: 1px solid red; */
- }
+nav .brand-logo {
+   padding: 0 10px;
+   font-size: 1.1rem;
+}
 
- .hero img {
-    background-color: #cccccc;
-    height: auto;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+
+.hero {
+   background: url(../images/teodor-skrebnev-DcIZJsskTfg-unsplash.jpg) no-repeat center center;
+   background-size: cover;
+   height: 50vh;
  }
 
  .social-links {
@@ -24,9 +21,17 @@ body {
 
  .recipe-details {
    line-height: 0.1;
-   border-top: 1px solid black;
-   border-bottom: 1px solid black;
+   border-top: 1px solid rgba(0, 0, 0,0.7);
  }
+
+ .recipe-img {
+   object-fit: cover;
+   object-position: center;
+   height: 200px;
+   width: 200px; 
+   margin: auto;
+   border-radius: 5px;
+}
 
  .list-spacing {
    margin: 1em 0;
@@ -37,19 +42,41 @@ body {
    border-radius: 5px;
  }
 
- .card-extended {
-   padding: 15px;
+ .card-responsive {
+   width: 100%;
+   height: 30vh !important;
+   overflow: hidden;
  }
 
- .btn-radius {
+ .placeholder-img {
+   margin: auto !important;
+ }
+
+ .card-extended {
+   padding: 15px;
+   height: 10vh;
+   border-top: 1px solid gray;
+ }
+
+ .card-details {
+   padding: 10px;
+ }
+
+ .item-radius {
    border-radius: 5px;
  }
 
  .modal-resize {
-   width: 70vw !important;
-   height: 35vh !important;
+   height: 50vh !important;
    top: 20% !important;
  }
+
+ .border-boxes{
+   border: 1px solid;
+   border-radius: 5px;
+   padding: 10px;
+}
+
 
 
 
@@ -118,6 +145,7 @@ body {
     }
  }
 
+
  @media only screen and (min-width: 630px) {
     .responsive-text {
        font-size: 1.416rem;
@@ -179,8 +207,8 @@ body {
     }
 
     .modal-resize {
-      width: 35vw !important;
-      height: 35vh !important;
+      width: 40vw !important;
+      height: 45vh !important;
       top: 20% !important;
     }
 
