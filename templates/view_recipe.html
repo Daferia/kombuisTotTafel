@@ -2,6 +2,15 @@
 {% block content %}
 
   <h2 class="center-align">{{ recipe.recipe_name|title }}</h2>
+    <!-- Edit and Print buttons -->
+    <div class="row">
+      <div class="col s12 center-align">
+        <a class="waves-effect waves-light btn-small green item-radius" href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">Edit <i class="fa-solid fa-pencil"></i></a>
+        <a class="waves-effect waves-light btn-small red item-radius" href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}">Delete <i class="fa-solid fa-times"></i></a>
+  
+        <a class="waves-effect waves-light btn-small green item-radius" onclick="window.print()">Print <i class="fa-solid fa-print"></i></a>
+      </div>
+    </div>
   <div class="row">
     <div class="col s12 m12">
       <table class="responsive-table centered recipe-details">
@@ -10,6 +19,7 @@
             <th>Prep Time <em><small>(in minutes)</small></em></th>
             <th>Cooking Time <em><small>(in minutes)</small></em></th>
             <th>Serves</th>
+            <th>Category</th>
             <th>Added By</th>
 
           </tr>
@@ -19,32 +29,39 @@
             <td>{{ recipe.prep_time }}</td>
             <td>{{ recipe.cooking_time }}</td>
             <td>{{ recipe.servings }} people</td>
+            <td>{{ recipe.category_name }}</td>
             <td>{{ recipe.added_by }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="row vertical-align center-align">
+  <div class="row vertical-align center-align border-boxes grey lighten-3">
     <div class="col s12 m6">
-      <img class="activator responsive-img materialboxed z-depth-3"
+      {% if recipe.image_url %}
+      <img class="activator materialboxed z-depth-3 recipe-img"
         src="{{ recipe.image_url }}"
         alt="Photo of a {{ recipe.recipe_name|lower }}">
+        {% else %}
+      <img class="activator materialboxed z-depth-3 recipe-img"
+       src="https://images.unsplash.com/photo-1531928351158-2f736078e0a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
+      alt="Photo of empty plate with a sad face">
+      {% endif %}
     </div>
-    <div class="col s12 m6 ">
+    <div class="col s12 m6">
       <p>{{ recipe.recipe_description }}</p>
     </div>
   </div>
-  <div class="row">
-      <div class="col s12 m6">
+  <div class="row border-boxes grey lighten-3">
+      <div class="col s12 m6 ">
         <h4><strong>Ingredients</strong></h4>
         <ul>
           {% for item in recipe.ingredients.splitlines() %}
           <li class="list-spacing">{{ item }}</li>
           {% endfor %}
         </ul>
-    
-      </div>
+ 
+    </div>
       <div class="col s12 m6">
         <h4><strong>Method</strong></h4>
         <ol>
@@ -52,19 +69,7 @@
           <li class="list-spacing">{{ step }}</li>
           {% endfor %}
         </ol>
-      </div>
+      </div></div>
     </div>
   </div>
-
-  <!-- Edit and Print buttons -->
-  <div class="row">
-    <div class="col s12 center-align">
-      <a class="waves-effect waves-light btn-small green btn-radius" href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">Edit Recipe <i class="fa-solid fa-pencil"></i></a>
-      <a class="waves-effect waves-light btn-small red accent-4 btn-radius" onclick="window.print()">Print Recipe <i class="fa-solid fa-print"></i></a>
-    </div>
-  </div>
-
-
-
-
 {% endblock %}
