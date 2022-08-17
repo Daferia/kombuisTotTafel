@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="center-align">Add Recipe</h2>
+<br>
+<div class="row">
+  <form class="col s12" method="POST" action="{{ url_for('add_recipe') }}">
+    <div class="row">
+      <div class="input-field inline col s12 m6">
+        <input id="recipe_name" name="recipe_name" type="text" class="validate"
+          required>
+        <label for="recipe_name">Recipe Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field inline col s12">
+        <textarea id="recipe_description" name="recipe_description" minlength="25" maxlength="250"
+          class="materialize-textarea validate" required></textarea>
+        <label for="recipe_description">Recipe Description</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field inline col s12 m6">
+        <input id="prep_time" name="prep_time" type="number" min="1" class="validate"
+          required>
+        <label for="prep_time">Preparation Time <em><small>(in mintues)</small></em></label>
+      </div>
+      <div class="input-field inline col s12 m6">
+        <input id="cooking_time" name="cooking_time"  type="number" min="1"
+          class="validate" required>
+        <label for="cooking_time">Cooking Time <em><small>(in mintues)</small></em></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field inline col s6 m6">
+        <input id="" name="servings" type="number" min="1" class="validate" required>
+        <label for="servings">Serves <em><small>(people)</small></em></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6">
+        <select id="category_name" name="category_name" class="validate" required>
+          <option value="" disabled selected>Select a Category</option>
+            {% for category in categories %}
+              <option value="{{ category.category_name}}">{{ category.category_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="category_name">Category</label>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field inline col s12">
+            <textarea id="ingredients" name="ingredients"
+             minlength="25" class="materialize-textarea validate" required></textarea>
+            <label for="ingredients">Ingredients <em><small>(Use one line per ingredient)</small></em></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field inline col s12">
+            <textarea id="method" name="method" minlength="25"
+             class="materialize-textarea validate" required></textarea>
+            <label for="method">Method <em><small>(Use one step line per step)</small></em></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field inline col s12">
+
+        <input id="image_url" name="image_url" type="url" class="validate">
+        <label for="image_url">Recipe Image URL</label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col s12 center-align">
+        <!-- submit button -->
+        <button type="submit" class="waves-effect waves-light btn-small green item-radius">
+          Add <i class="fas fa-edit right"></i>
+        </button>
+        <!-- cancel button -->
+        <a href="{{ url_for('recipes') }}"
+          class="waves-effect waves-light btn-small red accent-4 item-radius">
+          Cancel <i class="fas fa-times-circle right"></i>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
