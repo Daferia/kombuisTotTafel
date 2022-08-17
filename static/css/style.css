@@ -21,7 +21,7 @@ nav .brand-logo {
 
  .recipe-details {
    line-height: 0.1;
-   border-top: 1px solid rgba(0, 0, 0,0.7);
+   border-top: 1px solid rgb(0, 0, 0);
  }
 
  .recipe-img {
@@ -211,6 +211,13 @@ nav .brand-logo {
       height: 45vh !important;
       top: 20% !important;
     }
+
+    .recipe-img {
+
+      height: 300px;
+      width: 300px; 
+
+   }
 
  }
 
