@@ -4,16 +4,11 @@ from flask import (
     redirect, session, url_for, request)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-if os.path.exists("env.py"):
-    import env
+from werkzeug.security import generate_password_hash, check_password_hash
+from kombuistottafel import app, db
+from kombuistottafel.models import Category, Users
 
 
-app = Flask(__name__)
-
-
-app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
-app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
-app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 
@@ -87,10 +82,3 @@ def delete_recipe(recipe_id):
     mongo.db.recipes.delete_one({'_id': ObjectId(recipe_id)})
     flash("Recipe has been deleted")
     return redirect(url_for("recipes"))
-    
-
-if __name__ == "__main__":
-    app.run(host=os.environ.get("IP"),
-            port=int(os.environ.get("PORT")),
-            debug=os.environ.get("DEBUG")
-    )
