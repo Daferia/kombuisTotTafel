@@ -9,7 +9,6 @@ from kombuistottafel import app, db
 from kombuistottafel.models import Category, Users
 
 
-
 mongo = PyMongo(app)
 
 
@@ -58,7 +57,7 @@ def edit_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
 
     if request.method == "POST":
-        submit = { "$set": {
+        submit = {"$set": {
             "recipe_name": request.form.get("recipe_name"),
             "recipe_description": request.form.get("recipe_description"),
             "category_name": request.form.get("category_name"),
@@ -72,7 +71,7 @@ def edit_recipe(recipe_id):
         mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, submit)
         flash("Recipe has been updated")
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
-    
+
     categories = list(mongo.db.categories.find().sort("category_name", 1))
     return render_template("edit_recipe.html", recipe=recipe, categories=categories)
 
