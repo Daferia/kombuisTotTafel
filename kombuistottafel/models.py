@@ -11,9 +11,20 @@ class Category(db.Model):
         return self.category_name
 
 
+class UserType(db.Model):
+    # schema for the user type model
+    id = db.Column(db.Integer, primary_key=True)
+    user_type = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        # __repr__ to represent itself in the form of a string
+        return self.user_type
+
+
 class Users(db.Model):
     # schema for the Task model
     id = db.Column(db.Integer, primary_key=True)
+    user_type = db.Column(db.Integer, db.ForeignKey("user_type.id"), nullable=False)
     user_name = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(260), nullable=False)
     admin = db.Column(db.Boolean, default=False, nullable=False)
