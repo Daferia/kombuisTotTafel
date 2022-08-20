@@ -8,11 +8,11 @@
     <div class="card hoverable z-depth-2 item-radius">
       <div class="card-image card-responsive item-radius">
         {% if recipe.image_url == "" %}
-        <img class="activator materialboxed recipe-img placeholder-img"
+        <img class="activator recipe-img placeholder-img"
          src="https://images.unsplash.com/photo-1531928351158-2f736078e0a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
         alt="Photo of empty plate with a sad face">
         {% else %}
-        <img class="activator materialboxed recipe-img" src="{{ recipe.image_url }}"
+        <img class="activator recipe-img" src="{{ recipe.image_url }}"
           alt="Photo of a {{ recipe.recipe_name|lower }}">
           {% endif %}
         <span class="col s12 card-title black-text white lighten-2 center-align card-extended">
