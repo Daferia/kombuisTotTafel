@@ -2,17 +2,17 @@
 {% block content %}
 
 
-<h3 class="green-text center-align">Add Category</h3>
+<h3 class="green-text center-align">Add Account</h3>
 
 <div class="row card-panel grey lighten-5 item-radius">
-    <form class="col s12" method="POST" action="{{ url_for('add_category') }}">
+    <form class="col s12" method="POST" action="{{ url_for('add_account_type') }}">
         <!-- category name -->
         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-plus prefix green-text"></i>
-                <input id="category_name" name="category_name" minlength="3" maxlength="25" type="text" class="validate"
+                <input id="account_type" name="account_type" minlength="3" maxlength="25" type="text" class="validate"
                     required>
-                <label for="category_name">Category Name</label>
+                <label for="account_type">Category Name</label>
             </div>
         </div>
         <!-- Add Category button -->
