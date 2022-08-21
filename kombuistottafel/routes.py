@@ -1,13 +1,11 @@
-import os
 from flask import (
-    Flask, flash, render_template, 
+    flash, render_template,
     redirect, session, url_for, request)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from kombuistottafel import app, db
 from kombuistottafel.models import Category, Account, Users
-
 
 mongo = PyMongo(app)
 
@@ -20,7 +18,7 @@ def home():
 
 @app.route("/recipes")
 def recipes():
-    recipes = mongo.db.recipes.find()
+    recipes = list(mongo.db.recipes.find())
     return render_template("recipes.html", recipes=recipes)
 
 
@@ -32,6 +30,10 @@ def view_recipe(recipe_id):
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
+    if "user" not in session:
+        flash("You need to be logged in to add a recipe")
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         recipe = {
             "recipe_name": request.form.get("recipe_name"),
@@ -58,6 +60,11 @@ def add_recipe():
 def edit_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
 
+    if "user" not in session or session["user"] != recipe["added_by"]:
+        flash("You can only edit your own recipes!")
+        return redirect(url_for("view_recipe", recipe_id=recipe_id))
+
+
     if request.method == "POST":
         submit = {"$set": {
             "recipe_name": request.form.get("recipe_name"),
@@ -76,11 +83,18 @@ def edit_recipe(recipe_id):
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
     categories = list(Category.query.order_by(Category.category_name).all())
-    return render_template("edit_recipe.html", recipe=recipe, categories=categories)
+    return render_template("edit_recipe.html",
+     recipe=recipe, categories=categories)
 
 
 @app.route("/delete_recipe/<recipe_id>")
 def delete_recipe(recipe_id):
+    recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+
+    if "user" not in session or session["user"] != recipe["added_by"]:
+        flash("You can only delete your own recipes!")
+        return redirect(url_for("login"))
+
     mongo.db.recipes.delete_one({'_id': ObjectId(recipe_id)})
     flash("Recipe has been deleted")
     return redirect(url_for("recipes"))
@@ -90,12 +104,19 @@ def delete_recipe(recipe_id):
 def admin():
     categories = list(Category.query.order_by(Category.category_name).all())
     accounts = list(Account.query.order_by(Account.account_type).all())
+    username = list(Users.query.order_by(Users.user_name).all())
+
     return render_template("admin.html",
-     categories=categories, accounts=accounts)
+     categories=categories, accounts=accounts, username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
 def add_category():
+
+    if "user" not in session or session["user"] != "admin":
+        flash("You dont have permission to add categories!")
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         category = Category(category_name=request.form.get("category_name"))
         db.session.add(category)
@@ -106,6 +127,10 @@ def add_category():
 
 @app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
 def edit_category(category_id):
+    if "user" not in session or session["user"] != "admin":
+        flash("You dont have permission to edit categoies!")
+        return redirect(url_for("login"))
+
     category = Category.query.get_or_404(category_id)
     if request.method == "POST":
         category.category_name = request.form.get("category_name")
@@ -116,6 +141,10 @@ def edit_category(category_id):
 
 @app.route("/delete_category/<int:category_id>")
 def delete_category(category_id):
+    if "user" not in session or session["user"] != "admin":
+        flash("You dont have permission to delete categories!")
+        return redirect(url_for("login"))
+
     category = Category.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
@@ -123,9 +152,12 @@ def delete_category(category_id):
     return redirect(url_for("admin"))
 
 
-
 @app.route("/add_account_type", methods=["GET", "POST"])
 def add_account_type():
+    if "user" not in session or session["user"] != "admin":
+        flash("You dont have permission to add account types!")
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         account = Account(account_type=request.form.get("account_type"))
         db.session.add(account)
@@ -136,6 +168,10 @@ def add_account_type():
 
 @app.route("/delete_account/<int:account_id>")
 def delete_account(account_id):
+    if "user" not in session or session["user"] != "admin":
+        flash("You dont have permission to delete accounts!")
+        return redirect(url_for("login"))
+
     account = Account.query.get_or_404(account_id)
     db.session.delete(account)
     db.session.commit()
@@ -145,8 +181,6 @@ def delete_account(account_id):
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    accounts = list(Account.query.order_by(Account.account_type).all())
-
     if request.method == "POST":
         # check if username already exists in db
         existing_user = Users.query.filter(Users.user_name == request.form.get("username").lower()).all()
@@ -169,7 +203,7 @@ def register():
         flash("Registration Successful!")
         return redirect(url_for("profile", username=session["user"]))
 
-    return render_template("register.html", accounts=accounts)
+    return render_template("register.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -204,11 +238,16 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    # grab the session user's username from db
-    username = Users.query.filter(Users.user_name == session["user"]).all()
 
     if session["user"]:
-        return render_template("profile.html", username=username)
+        # find recipes to add for logged in user
+        user_recipes = list(mongo.db.recipes.find({"added_by": username}))
+
+        # grab the session user's username from db
+        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
+    return render_template("profile.html",
+     username=username, user_recipes=user_recipes)
 
     return redirect(url_for("login"))
 
@@ -219,3 +258,61 @@ def logout():
     flash("You have been logged out")
     session.pop("user")
     return redirect(url_for("login"))
+
+
+@app.route("/add_new_user", methods=["GET", "POST"])
+def add_new_user():
+    accounts = list(Account.query.order_by(
+        Account.account_type).all())
+
+    if request.method == "POST":
+        # check if username already exists in db
+        existing_user = Users.query.filter(Users.user_name == request.form.get("username").lower()).all()
+
+        if existing_user:
+            flash("Username already exists")
+            return redirect(url_for("add_new_user"))
+
+        user = Users(
+            user_name=request.form.get("username").lower(),
+            password=generate_password_hash(request.form.get("password")),
+            account_type=request.form.get("account_type"),
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash("Added New User Successful!")
+        return redirect(url_for("admin"))
+
+    return render_template("add_new_user.html", accounts=accounts)
+
+
+@app.route("/edit_user/<int:id>", methods=["GET", "POST"])
+def edit_user(id):
+    accounts = list(Account.query.order_by(Account.account_type).all())
+    user = Users.query.get_or_404(id)
+    if request.method == "POST":
+        user.user_name=request.form.get("username").lower(),
+        user.password=generate_password_hash(request.form.get("password")),
+        user.account_type=request.form.get("account_type")
+
+        db.session.commit()
+        return redirect(url_for("admin"))
+    return render_template("edit_user.html", user=user, accounts=accounts)
+
+
+@app.route("/delete_user/<int:id>")
+def delete_user(id):
+    user = Users.query.get_or_404(id)
+    db.session.delete(user)
+    db.session.commit()
+    mongo.db.users.delete_many({"id": str(id)})
+    return redirect(url_for("admin"))
+
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    query = request.form.get("query")
+    results = list(mongo.db.recipes.find({"$text": {"$search": query}}))
+    return render_template("recipes.html", results=results)
