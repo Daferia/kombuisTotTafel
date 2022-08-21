@@ -4,10 +4,8 @@ from flask import (
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
-from kombuistottafel import app, db
+from kombuistottafel import app, db, mongo
 from kombuistottafel.models import Category, Account, Users
-
-mongo = PyMongo(app)
 
 
 @app.route('/')

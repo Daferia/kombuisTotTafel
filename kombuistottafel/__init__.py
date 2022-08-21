@@ -1,6 +1,7 @@
 import os
 import re
 from flask import Flask
+from flask_pymongo import PyMongo
 from flask_sqlalchemy import SQLAlchemy
 if os.path.exists("env.py"):
     import env
@@ -24,5 +25,6 @@ else:
     app.config["SQLALCHEMY_DATABASE_URI"] = uri
 
 db = SQLAlchemy(app)
+mongo = PyMongo(app)
 
-from kombuistottafel import routes
+from kombuistottafel import routes #noqa
