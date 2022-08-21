@@ -312,5 +312,5 @@ def delete_user(id):
 @app.route("/search", methods=["GET", "POST"])
 def search():
     query = request.form.get("query")
-    results = list(mongo.db.recipes.find({"$text": {"$search": query}}))
-    return render_template("recipes.html", results=results)
+    recipes = list(mongo.db.recipes.find({"$text": {"$search": query}}))
+    return render_template("recipes.html", recipes=recipes)
