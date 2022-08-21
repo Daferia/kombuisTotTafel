@@ -64,7 +64,7 @@ nav .brand-logo {
    border-top: 1px solid gray;
  }
 
- .card-details {
+ .card-padding {
    padding: 10px;
  }
 
@@ -76,14 +76,6 @@ nav .brand-logo {
    height: 50vh !important;
    top: 20% !important;
  }
-
- .border-boxes{
-   border: 1px solid;
-   border-radius: 5px;
-   padding: 10px;
-}
-
-
 
 
  @media only screen and (min-width: 360px) {
