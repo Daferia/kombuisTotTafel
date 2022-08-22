@@ -104,8 +104,8 @@ def admin():
     accounts = list(Account.query.order_by(Account.account_type).all())
     username = list(Users.query.order_by(Users.user_name).all())
 
-    return render_template("admin.html",
-     categories=categories, accounts=accounts, username=username)
+    return render_template("admin.html", categories=categories,
+     accounts=accounts, username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
@@ -116,7 +116,7 @@ def add_category():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-        category = Category(category_name=request.form.get("category_name"))
+        category = Category(category_name=request.form.get("category_name").lower())
         db.session.add(category)
         db.session.commit()
         return redirect(url_for("admin"))
@@ -157,7 +157,7 @@ def add_account_type():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-        account = Account(account_type=request.form.get("account_type"))
+        account = Account(account_type=request.form.get("account_type").lower())
         db.session.add(account)
         db.session.commit()
         return redirect(url_for("admin"))

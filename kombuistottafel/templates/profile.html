@@ -9,35 +9,35 @@
   </div>
   <div class="row">
     {% if user_recipes|length > 0 %}
-    {% for recipe in user_recipes %}
-    <div class="col s12 m6 l4">
-      <div class="card hoverable z-depth-2 item-radius">
-        <div class="card-image card-responsive item-radius">
-          {% if recipe.image_url == "" %}
-          <img class="activator recipe-img placeholder-img"
-           src="{{url_for('static',filename='images/thought-catalog-fnztlIb52gU-unsplash.jpg') }}" 
-          alt="Photo of empty plate with a sad face">
-          {% else %}
-          <img class="activator recipe-img" src="{{ recipe.image_url }}"
-            alt="Photo of a {{ recipe.recipe_name|lower }}">
+      {% for recipe in user_recipes %}
+      <div class="col s12 m6 l4">
+        <div class="card hoverable z-depth-2 item-radius">
+          <div class="card-image card-responsive item-radius">
+            {% if recipe.image_url == "" %}
+            <img class="activator recipe-img placeholder-img"
+              src="{{url_for('static',filename='images/thought-catalog-fnztlIb52gU-unsplash.jpg') }}"
+              alt="Photo of empty plate with a sad face">
+            {% else %}
+            <img class="activator recipe-img" src="{{ recipe.image_url }}"
+              alt="Photo of a {{ recipe.recipe_name|lower }}">
             {% endif %}
-          <span class="col s12 card-title black-text white lighten-2 center-align card-extended">
-            <h6>{{ recipe.recipe_name|title }}</h6>
-          </span>
+            <span class="col s12 card-title black-text white lighten-2 center-align card-extended">
+              <h6>{{ recipe.recipe_name|title }}</h6>
+            </span>
+          </div>
+          <div class="row center card-padding">
+            <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}"
+              class="btn-small waves-effect waves-light green btn-radius">View <i class="fa-solid fa-eye"></i></a>
+          </div>
         </div>
-        <div class="row center card-padding">
-          <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}"
-            class="btn-small waves-effect waves-light green btn-radius">View <i class="fa-solid fa-eye"></i></a>
-    
-</div>
       </div>
-    </div>
-    {% endfor %}
-    </div>
-    {% else %}
-      <h3 class="red-text text-darken-4 center-align">No Results Found!</h3>
-
-      {% endif %}
-    </div>
+      {% endfor %}
+  </div>
+  {% else %}
+  <div class="col s12">
+    <h3 class="red-text text-darken-4 center-align">No Results Found!</h3>
+  </div>
+  {% endif %}
+</div>
 </div>
 {% endblock %}

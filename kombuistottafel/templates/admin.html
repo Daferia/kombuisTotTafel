@@ -4,125 +4,124 @@
 
 <div class="row">
     {% if session["user"] == "Admin"|lower %}
-     <div class="col s12 card-panel item-radius">
+    <div class="col s12 card-panel item-radius">
         <h3 class="green-text center-align"><strong>Admin Settings</strong></h3>
         <!-- Add Categories Section -->
         <div class="col s6 offset-s3 card-panel grey lighten-5 item-radius z-depth-2">
             <div class="col s12 center-align">
                 <h4 class="green-text">Add Categories</h4>
             </div>
-                <div class="col s8 offset-m2 center-align">
-                    <div class="center-align card-padding">
-                        <!-- Add Category button -->
-                        <a href="{{ url_for('add_category') }}"
-                            class="waves-effect waves-light btn-small green item-radius" alt="Add category"
-                            aria-label="Add Category">
-                            Add Category <i class="fas fa-edit right"></i></a>
-                    </div>
-                    <table class="highlight">
-                        <thead>
-                            <tr>
-                                <th>Category Name</th>
-                                <th class="center-align">Delete Category</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- view catergories in table form -->
-                            {% for category in categories %}
-                            <tr>
-                                <td>{{ category.category_name }}</td>
-                                <td class="center-align"><a
-                                        href="{{ url_for('delete_category', category_id=category.id) }}"
-                                        class="red-text lighten-1 " alt="Delete category"
-                                        aria-label="Delete Category"><i class="fa-solid fa-xmark"></i></a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="col s8 offset-m2 center-align">
+                <div class="center-align card-padding">
+                    <!-- Add Category button -->
+                    <a href="{{ url_for('add_category') }}" class="waves-effect waves-light btn-small green item-radius"
+                        alt="Add category" aria-label="Add Category">
+                        Add Category <i class="fas fa-edit right"></i></a>
                 </div>
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th class="center-align">Delete Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- view catergories in table form -->
+                        {% for category in categories %}
+                        <tr>
+                            <td>{{ category.category_name|title }}</td>
+                            <td class="center-align"><a href="{{ url_for('delete_category', category_id=category.id) }}"
+                                    class="red-text lighten-1 " alt="Delete category" aria-label="Delete Category"><i
+                                        class="fa-solid fa-xmark"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         <!-- Add Account Type Section -->
         <div class="col s6 offset-s3 card-panel grey lighten-5 item-radius z-depth-2">
             <div class="col s12 center-align">
                 <h4 class="green-text">Add Account Type</h4>
             </div>
-                <div class="col s8 offset-m2 center-align">
-                    <div class="center-align card-padding">
-                        <!-- Add Account Type button -->
-                        <a href="{{ url_for('add_account_type') }}"
-                            class="waves-effect waves-light btn-small green item-radius" alt="Add category"
-                            aria-label="Add Category">
-                            Add Account Type <i class="fas fa-edit right"></i></a>
-                    </div>
-                    <table class="highlight">
-                        <thead>
-                            <tr>
-                                <th>Account Name</th>
-                                <th class="center-align">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- view Account type in table form -->
-                            {% for account in accounts %}
-                            <tr>
-                                <td>{{ account.account_type }}</td>
-                                <td class="center-align"><a
-                                        href="{{ url_for('delete_account', account_id=account.id) }}"
-                                        class="red-text lighten-1 " alt="Delete Account"
-                                        aria-label="Delete Account"><i class="fa-solid fa-xmark"></i></a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="col s8 offset-m2 center-align">
+                <div class="center-align card-padding">
+                    <!-- Add Account Type button -->
+                    <a href="{{ url_for('add_account_type') }}"
+                        class="waves-effect waves-light btn-small green item-radius" alt="Add category"
+                        aria-label="Add Category">
+                        Add Account Type <i class="fas fa-edit right"></i></a>
                 </div>
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th>Account Name</th>
+                            <th class="center-align">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- view Account type in table form -->
+                        {% for account in accounts %}
+                        <tr>
+                            <td>{{ account.account_type|title }}</td>
+                            <td class="center-align"><a href="{{ url_for('delete_account', account_id=account.id) }}"
+                                    class="red-text lighten-1 " alt="Delete Account" aria-label="Delete Account"><i
+                                        class="fa-solid fa-xmark"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-                <!-- Add Account Type Section -->
-                <div class="col s6 offset-s3 card-panel grey lighten-5 item-radius z-depth-2">
-                    <div class="col s12 center-align">
-                        <h4 class="green-text">Users</h4>
-                    </div>
-                        <div class="col s12 center-align">
-                            <div class="center-align card-padding">
-                                <!-- Add Account Type button -->
-                                <a href="{{ url_for('add_new_user') }}"
-                                    class="waves-effect waves-light btn-small green item-radius" alt="Add category"
-                                    aria-label="Add Category">
-                                    Add New User <i class="fas fa-edit right"></i></a>
-                            </div>
-                            <table class="highlight">
-                                <thead>
-                                    <tr>
-                                        <th>User Name</th>
-                                        <th>Account Type</th>
-                                        <th class="center-align">Edit User</th>
-                                        <th class="center-align">Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- view Account type in table form -->
-                                    {% for user in username %}
-                                    <tr>
-                                        <td>{{ user.user_name }}</td>
-                                        <td>{{ user.account_type }}</td>
-                                        <td class="center-align"><a
-                                        href="{{ url_for('edit_user', id=user.id) }}"
-                                        class="green-text lighten-1 " alt="Edit User"
-                                        aria-label="Edit User"><i class="fa-solid fa-pencil"></i></a></td>                                        
-                                        <td class="center-align"><a
-                                                href="{{ url_for('delete_user', id=user.id) }}"
-                                                class="red-text lighten-1 " alt="Delete Account"
-                                                aria-label="Delete User"><i class="fa-solid fa-xmark"></i></a></td>
-                                    </tr>
-                                    {% endfor %}                                    
-                                </tbody>
-                            </table>
-                        </div>
+        <!-- Add Account Type Section -->
+        <div class="col s6 offset-s3 card-panel grey lighten-5 item-radius z-depth-2">
+            <div class="col s12 center-align">
+                <h4 class="green-text">Users</h4>
+            </div>
+            <div class="col s12 center-align">
+                <div class="center-align card-padding">
+                    <!-- Add Account Type button -->
+                    <a href="{{ url_for('add_new_user') }}" class="waves-effect waves-light btn-small green item-radius"
+                        alt="Add category" aria-label="Add Category">
+                        Add New User <i class="fas fa-edit right"></i></a>
                 </div>
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Account Type</th>
+                            <th class="center-align">Edit User</th>
+                            <th class="center-align">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- view Account type in table form -->
+                        {% for user in username %}
+                        <tr>
+                            <td>{{ user.user_name }}</td>
+                            <td>{{ user.account_type|title }}</td>
+                            <td class="center-align">
+                                <a href="{{ url_for('edit_user', id=user.id) }}" class="green-text lighten-1 "
+                                    alt="Edit User" aria-label="Edit User"><i class="fa-solid fa-pencil"></i>
+                                </a>
+                            </td>
+                            <td class="center-align">
+                                <a href="{{ url_for('delete_user', id=user.id) }}" class="red-text lighten-1 "
+                                    alt="Delete Account" aria-label="Delete User"><i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    {% else %}
-    <div class="col s6 offset-s3 card-panel item-radius">
+</div>
+{% else %}
+<div class="col s6 offset-s3 card-panel item-radius">
     <h3 class="red-text center-align">You dont have permissions to view this page!</h3>
 </div>
-    {% endif %}
+
+{% endif %}
 {% endblock %}
