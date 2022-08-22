@@ -1,8 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;700&family=Satisfy&display=swap');
+
 body {
    background-color: whitesmoke;
+   font-family: 'Merriweather Sans', sans-serif;
    display: flex;
    min-height: 100vh;
    flex-direction: column;}
+
+nav .brand-logo{
+   font-size: 1.8rem !important;
+   font-family: 'Satisfy', cursive;}
 
 main {
    flex: 1 0 auto;
