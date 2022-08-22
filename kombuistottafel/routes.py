@@ -17,13 +17,17 @@ def home():
 @app.route("/recipes")
 def recipes():
     recipes = list(mongo.db.recipes.find())
-    return render_template("recipes.html", recipes=recipes)
+    categories = list(Category.query.order_by(Category.category_name).all())
+
+    return render_template("recipes.html", recipes=recipes, categories=categories)
 
 
 @app.route("/view_recipe/<recipe_id>")
 def view_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
-    return render_template("view_recipe.html", recipe=recipe)
+    categories = list(Category.query.order_by(Category.category_name).all())
+
+    return render_template("view_recipe.html", recipe=recipe, categories=categories)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -36,7 +40,7 @@ def add_recipe():
         recipe = {
             "recipe_name": request.form.get("recipe_name"),
             "recipe_description": request.form.get("recipe_description"),
-            "category_name": request.form.get("category_name"),
+            "category_id": request.form.get("category_id"),
             "prep_time": request.form.get("prep_time"),
             "cooking_time": request.form.get("cooking_time"),
             "servings": request.form.get("servings"),
@@ -67,7 +71,7 @@ def edit_recipe(recipe_id):
         submit = {"$set": {
             "recipe_name": request.form.get("recipe_name"),
             "recipe_description": request.form.get("recipe_description"),
-            "category_name": request.form.get("category_name"),
+            "category_id": request.form.get("category_id"),
             "prep_time": request.form.get("prep_time"),
             "cooking_time": request.form.get("cooking_time"),
             "servings": request.form.get("servings"),
@@ -146,7 +150,7 @@ def delete_category(category_id):
     category = Category.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
-    mongo.db.tasks.delete_many({"category_id": str(category_id)})
+    mongo.db.recipes.delete_many({"category_id": str(category_id)})
     return redirect(url_for("admin"))
 
 

@@ -29,7 +29,12 @@
             <td>{{ recipe.prep_time }}</td>
             <td>{{ recipe.cooking_time }}</td>
             <td>{{ recipe.servings }} people</td>
-            <td>{{ recipe.category_name|title }}</td>
+            <td>
+            {% for category in categories %}
+            {% if category.id == recipe.category_id | int %}
+            {{ category.category_name|title }}
+            {%endif%}
+            {%endfor%}</td>
             <td>{{ recipe.added_by }}</td>
           </tr>
         </tbody>
