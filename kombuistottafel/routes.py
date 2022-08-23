@@ -10,7 +10,7 @@ from kombuistottafel.models import Category, Account, Users
 
 @app.route('/')
 @app.route("/home")
-def home(): 
+def home():
     return render_template("home.html")
 
 
@@ -19,7 +19,8 @@ def recipes():
     recipes = list(mongo.db.recipes.find())
     categories = list(Category.query.order_by(Category.category_name).all())
 
-    return render_template("recipes.html", recipes=recipes, categories=categories)
+    return render_template("recipes.html", recipes=recipes,
+                           categories=categories)
 
 
 @app.route("/view_recipe/<recipe_id>")
@@ -27,7 +28,8 @@ def view_recipe(recipe_id):
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     categories = list(Category.query.order_by(Category.category_name).all())
 
-    return render_template("view_recipe.html", recipe=recipe, categories=categories)
+    return render_template("view_recipe.html",
+                           recipe=recipe, categories=categories)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -53,7 +55,7 @@ def add_recipe():
         mongo.db.recipes.insert_one(recipe)
         flash("Recipe has been Added")
         return redirect(url_for("recipes"))
-    
+
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("add_recipe.html", categories=categories)
 
@@ -65,7 +67,6 @@ def edit_recipe(recipe_id):
     if "user" not in session or session["user"] != recipe["added_by"]:
         flash("You can only edit your own recipes!")
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
-
 
     if request.method == "POST":
         submit = {"$set": {
@@ -86,7 +87,7 @@ def edit_recipe(recipe_id):
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("edit_recipe.html",
-     recipe=recipe, categories=categories)
+                           recipe=recipe, categories=categories)
 
 
 @app.route("/delete_recipe/<recipe_id>")
@@ -109,7 +110,7 @@ def admin():
     username = list(Users.query.order_by(Users.user_name).all())
 
     return render_template("admin.html", categories=categories,
-     accounts=accounts, username=username)
+                           accounts=accounts, username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
@@ -120,7 +121,8 @@ def add_category():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-        category = Category(category_name=request.form.get("category_name").lower())
+        category = Category(category_name=request.form.get(
+                            "category_name").lower())
         db.session.add(category)
         db.session.commit()
         return redirect(url_for("admin"))
@@ -161,7 +163,8 @@ def add_account_type():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-        account = Account(account_type=request.form.get("account_type").lower())
+        account = Account(account_type=request.form.get(
+                          "account_type").lower())
         db.session.add(account)
         db.session.commit()
         return redirect(url_for("admin"))
@@ -185,7 +188,8 @@ def delete_account(account_id):
 def register():
     if request.method == "POST":
         # check if username already exists in db
-        existing_user = Users.query.filter(Users.user_name == request.form.get("username").lower()).all()
+        existing_user = Users.query.filter(Users.user_name == request.form.get(
+                                           "username").lower()).all()
 
         if existing_user:
             flash("Username already exists")
@@ -212,8 +216,8 @@ def register():
 def login():
     if request.method == "POST":
         # check if username exists in db
-        existing_user = Users.query.filter(Users.user_name == \
-                                           request.form.get("username").lower()).all()
+        existing_user = Users.query.filter(Users.user_name == request.form.get(
+                                            "username").lower()).all()
 
         if existing_user:
             print(request.form.get("username"))
@@ -246,10 +250,11 @@ def profile(username):
         user_recipes = list(mongo.db.recipes.find({"added_by": username}))
 
         # grab the session user's username from db
-        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
 
     return render_template("profile.html",
-     username=username, user_recipes=user_recipes)
+                           username=username, user_recipes=user_recipes)
 
     return redirect(url_for("login"))
 
@@ -269,7 +274,8 @@ def add_new_user():
 
     if request.method == "POST":
         # check if username already exists in db
-        existing_user = Users.query.filter(Users.user_name == request.form.get("username").lower()).all()
+        existing_user = Users.query.filter(Users.user_name == request.form.get(
+                                           "username").lower()).all()
 
         if existing_user:
             flash("Username already exists")
@@ -295,9 +301,9 @@ def edit_user(id):
     accounts = list(Account.query.order_by(Account.account_type).all())
     user = Users.query.get_or_404(id)
     if request.method == "POST":
-        user.user_name=request.form.get("username").lower(),
-        user.password=generate_password_hash(request.form.get("password")),
-        user.account_type=request.form.get("account_type")
+        user.user_name = request.form.get("username").lower(),
+        user.password = generate_password_hash(request.form.get("password")),
+        user.account_type = request.form.get("account_type")
 
         db.session.commit()
         return redirect(url_for("admin"))

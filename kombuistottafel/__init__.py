@@ -14,9 +14,9 @@ app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 
 
-    # local DB
+# local DB
 if os.environ.get("DEVELOPMENT") == "True":
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")  
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
 else:
     # heroku DB
     uri = os.environ.get("DATABASE_URL")
@@ -27,4 +27,4 @@ else:
 db = SQLAlchemy(app)
 mongo = PyMongo(app)
 
-from kombuistottafel import routes #noqa
+from kombuistottafel import routes  # noqa
