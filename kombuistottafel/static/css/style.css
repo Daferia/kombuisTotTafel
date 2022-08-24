@@ -5,11 +5,13 @@ body {
    font-family: 'Merriweather Sans', sans-serif;
    display: flex;
    min-height: 100vh;
-   flex-direction: column;}
+   flex-direction: column;
+}
 
 nav .brand-logo{
-   font-size: 1.8rem !important;
-   font-family: 'Satisfy', cursive;}
+   font-size: 1.3rem !important;
+   font-family: 'Satisfy', cursive;
+}
 
 main {
    flex: 1 0 auto;
@@ -19,7 +21,6 @@ nav .brand-logo {
    padding: 0 10px;
    font-size: 1.1rem;
 }
-
 
 .hero {
    background: url(../images/teodor-skrebnev-DcIZJsskTfg-unsplash.jpg) no-repeat center center;
@@ -31,6 +32,8 @@ nav .brand-logo {
     display: flex;
     justify-content: space-between;
  }
+
+ /* Recipe Styling */
 
  .recipe-details {
    line-height: 0.1;
@@ -50,10 +53,14 @@ nav .brand-logo {
    margin: 1em 0;
  }
 
+ /* Flash Message Styling */
+
  .flash-message h5{
    padding: 10px !important;
    border-radius: 5px;
  }
+
+ /* Card additional Styling */
 
  .card-responsive {
    width: 100%;
@@ -75,6 +82,8 @@ nav .brand-logo {
    padding: 10px;
  }
 
+ /* add radius to various elements */
+
  .item-radius {
    border-radius: 5px;
  }
@@ -84,60 +93,9 @@ nav .brand-logo {
    top: 20% !important;
  }
 
-
- @media only screen and (min-width: 360px) {
-    .responsive-text {
-       font-size: 1.2rem;
-    }
- }
-
- @media only screen and (min-width: 390px) {
-    .responsive-text {
-       font-size: 1.224rem;
-    }
- }
-
- @media only screen and (min-width: 420px) {
-    .responsive-text {
-       font-size: 1.248rem;
-    }
- }
-
- @media only screen and (min-width: 450px) {
-    .responsive-text {
-       font-size: 1.272rem;
-    }
- }
-
- @media only screen and (min-width: 480px) {
-    .responsive-text {
-       font-size: 1.296rem;
-    }
- }
-
- @media only screen and (min-width: 510px) {
-    .responsive-text {
-       font-size: 1.32rem;
-    }
- }
-
- @media only screen and (min-width: 540px) {
-    .responsive-text {
-       font-size: 1.344rem;
-    }
- }
-
- @media only screen and (min-width: 570px) {
-    .responsive-text {
-       font-size: 1.368rem;
-    }
- }
+ /* Viewport styling */
 
  @media only screen and (min-width: 600px) {
-    .responsive-text {
-       font-size: 1.392rem;
-    }
-
     .vertical-align {
       display: -webkit-box;
       display: -webkit-flex;
@@ -150,66 +108,10 @@ nav .brand-logo {
     }
  }
 
-
- @media only screen and (min-width: 630px) {
-    .responsive-text {
-       font-size: 1.416rem;
-    }
- }
-
- @media only screen and (min-width: 660px) {
-    .responsive-text {
-       font-size: 1.44rem;
-    }
- }
-
- @media only screen and (min-width: 690px) {
-    .responsive-text {
-       font-size: 1.464rem;
-    }
- }
-
- @media only screen and (min-width: 720px) {
-    .responsive-text {
-       font-size: 1.488rem;
-    }
- }
-
- @media only screen and (min-width: 750px) {
-    .responsive-text {
-       font-size: 1.512rem;
-    }
- }
-
- @media only screen and (min-width: 780px) {
-    .responsive-text {
-       font-size: 1.536rem;
-    }
- }
-
- @media only screen and (min-width: 810px) {
-    .responsive-text {
-       font-size: 1.56rem;
-    }
- }
-
- @media only screen and (min-width: 840px) {
-    .responsive-text {
-       font-size: 1.584rem;
-    }
- }
-
-
- @media only screen and (min-width: 870px) {
-    .responsive-text {
-       font-size: 1.608rem;
-    }
- }
-
  @media only screen and (min-width: 900px) {
-    .responsive-text {
-       font-size: 1.632rem;
-    }
+   nav .brand-logo{
+      font-size: 2rem !important;
+   }
 
     .modal-resize {
       width: 40vw !important;
@@ -225,24 +127,6 @@ nav .brand-logo {
    }
 
  }
-
-
- @media only screen and (min-width: 930px) {
-    .responsive-text {
-       font-size: 1.656rem;
-    }
- }
-
- @media only screen and (min-width: 960px) {
-    .responsive-text {
-       font-size: 1.2rem;
-    }
- }
-
-
-
-
-
 
 
 
