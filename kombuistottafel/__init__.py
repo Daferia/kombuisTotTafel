@@ -15,7 +15,7 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 
 
 # local DB
-if os.environ.get("DEVELOPMENT") == "True":
+if os.environ.get("DEBUG") == "True":
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
 else:
     # heroku DB
@@ -23,6 +23,7 @@ else:
     if uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = uri
+
 
 db = SQLAlchemy(app)
 mongo = PyMongo(app)
