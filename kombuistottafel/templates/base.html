@@ -12,11 +12,14 @@
         type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <title>Kombuis Tot Tafel</title>
+    <!-- add icon link -->
+    <link rel = "icon" href ="../static/images/logo.png" type = "image/x-icon">
 </head>
 
 <body>
     <header>
         <div class="row">
+            <!-- Desktop Navbar -->
             <nav>
                 <div class="nav-wrapper red darken-4">
                     <a href="{{ url_for('home') }}" class="brand-logo">Kombuis tot Tafel</a>
@@ -38,7 +41,7 @@
                     </ul>
                 </div>
             </nav>
-
+            <!-- hamburger/mobile navbar -->
             <ul class="sidenav" id="mobile-demo">
                 <li><a class="red-text darken-4" href="{{ url_for('home') }}">Home</a></li>
                 {% if session.user %}
@@ -70,11 +73,12 @@
         {% endwith %}
     </section>
     <main class="container">
-
+        <!-- main content goes here -->
         {% block content %}
         {% endblock %}
 
     </main>
+    <!-- footer with sticky -->
     <footer class="page-footer red darken-4">
         <div class="container">
             <div class="row">
@@ -105,6 +109,7 @@
             </div>
         </div>
     </footer>
+    <!-- JavaScript links -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
