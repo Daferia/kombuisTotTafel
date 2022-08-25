@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-
+<div class="container">
 <div class="row">
-    {% if session["user"] == "Admin"|lower %}
-    <div class="col s12 card-panel item-radius">
+        {% for user in usernames %}
+    {% if user.user_name == session["user"] %}
+
+    {% if user.account_type == "admin" %}
+    <div class="col s12 card-panel grey lighten-4 item-radius">
         <h3 class="green-text center-align"><strong>Admin Settings</strong></h3>
         <!-- Add Categories Section -->
         <div class="col s6 offset-s3 card-panel grey lighten-5 item-radius z-depth-2">
@@ -96,7 +99,7 @@
                     </thead>
                     <tbody>
                         <!-- view Account type in table form -->
-                        {% for user in username %}
+                        {% for user in usernames %}
                         <tr>
                             <td>{{ user.user_name }}</td>
                             <td>{{ user.account_type|title }}</td>
@@ -118,10 +121,14 @@
         </div>
     </div>
 </div>
-{% else %}
-<div class="col s6 offset-s3 card-panel item-radius">
-    <h3 class="red-text center-align">You dont have permissions to view this page!</h3>
 </div>
-
+{% else %}
+<div class="col red darken-4 s12 card-panel item-radius">
+    <h3 class=" white-text center-align">You dont have permissions to view this page!</h3>
+</div>
+</div>
 {% endif %}
+{% endif %}
+
+{%endfor%}
 {% endblock %}
