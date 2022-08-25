@@ -11,29 +11,34 @@ from kombuistottafel.models import Category, Account, Users
 @app.route('/')
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+    return render_template("home.html", username=username)
 
 
 @app.route("/recipes")
 def recipes():
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
     recipes = list(mongo.db.recipes.find())
     categories = list(Category.query.order_by(Category.category_name).all())
 
     return render_template("recipes.html", recipes=recipes,
-                           categories=categories)
+                           categories=categories, username=username)
 
 
 @app.route("/view_recipe/<recipe_id>")
 def view_recipe(recipe_id):
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     categories = list(Category.query.order_by(Category.category_name).all())
 
     return render_template("view_recipe.html",
-                           recipe=recipe, categories=categories)
+                           recipe=recipe, categories=categories, username=username)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
     if "user" not in session:
         flash("You need to be logged in to add a recipe")
         return redirect(url_for("login"))
@@ -57,11 +62,14 @@ def add_recipe():
         return redirect(url_for("recipes"))
 
     categories = list(Category.query.order_by(Category.category_name).all())
-    return render_template("add_recipe.html", categories=categories)
+    return render_template("add_recipe.html", categories=categories, username=username)
 
 
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
+    # using username for nav bar authentication
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
 
     if "user" not in session or session["user"] != recipe["added_by"]:
@@ -87,7 +95,7 @@ def edit_recipe(recipe_id):
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("edit_recipe.html",
-                           recipe=recipe, categories=categories)
+                           recipe=recipe, categories=categories, username=username)
 
 
 @app.route("/delete_recipe/<recipe_id>")
@@ -105,12 +113,20 @@ def delete_recipe(recipe_id):
 
 @app.route("/admin")
 def admin():
+
+    if "user" not in session:
+        flash("You need to  have permission to view this page!")
+        return redirect(url_for("login"))
+
+    # using username for nav bar authentication
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
     categories = list(Category.query.order_by(Category.category_name).all())
     accounts = list(Account.query.order_by(Account.account_type).all())
-    username = list(Users.query.order_by(Users.user_name).all())
+    usernames = list(Users.query.order_by(Users.user_name).all())
 
     return render_template("admin.html", categories=categories,
-                           accounts=accounts, username=username)
+                           accounts=accounts, usernames=usernames, username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
@@ -137,7 +153,7 @@ def edit_category(category_id):
 
     category = Category.query.get_or_404(category_id)
     if request.method == "POST":
-        category.category_name = request.form.get("category_name")
+        category.category_name = request.form.get("category_name").lower()
         db.session.commit()
         return redirect(url_for("admin"))
     return render_template("edit_category.html", category=category)
@@ -193,7 +209,7 @@ def register():
 
         if existing_user:
             flash("Username already exists")
-            return redirect(url_for("register"))
+            return redirect(url_for("login"))
 
         user = Users(
             user_name=request.form.get("username").lower(),
