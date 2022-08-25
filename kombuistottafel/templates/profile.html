@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class="row card-panel grey lighten-5 item-radius z-depth-2">
+<div class="container">
+<div class="row card-top-margin card-panel grey lighten-5 item-radius z-depth-2">
   <div class="col s12 m8 offset-m2">
     <h3 class="center-align green-text">
       {{ username|title }}'s Profile
@@ -35,9 +35,10 @@
   </div>
   {% else %}
   <div class="col s12">
-    <h3 class="red-text text-darken-4 center-align">No Results Found!</h3>
+    <h3 class="red-text text-darken-4 center-align">No Recipes Found!</h3>
   </div>
   {% endif %}
+</div>
 </div>
 </div>
 {% endblock %}

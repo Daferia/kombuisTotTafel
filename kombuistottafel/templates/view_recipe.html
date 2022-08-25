@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container">
 <div class="row card-panel grey lighten-5 item-radius z-depth-2">
   <h2 class="green-text center-align">{{ recipe.recipe_name|title }}</h2>
     <!-- Edit and Print buttons -->
@@ -28,7 +29,11 @@
           <tr>
             <td>{{ recipe.prep_time }}</td>
             <td>{{ recipe.cooking_time }}</td>
+            {% if recipe.servings == "1" %}
+            <td>{{ recipe.servings }} person</td>
+            {% else %}
             <td>{{ recipe.servings }} people</td>
+            {% endif %}
             <td>
             {% for category in categories %}
             {% if category.id == recipe.category_id | int %}
@@ -77,5 +82,6 @@
       </div></div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-  
+<div class="container">
 <h3 class="green-text center-align">Add New User</h3>
 
-<div class="row">
+    <div class="row">
     <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_user', id=user.id) }}">
         <div class="card-panel item-radius">
             <!-- username -->
@@ -31,9 +31,9 @@
                 <option value="" disabled>Select a Category</option>
                 {% for account in accounts %}
                 {% if account.account_type == user.account_type %}
-                <option value="{{ account.account_type }}" selected>{{ account.account_type }}</option>
+                <option value="{{ account.account_type }}" selected>{{ account.account_type|title }}</option>
                 {% else %}
-                <option value="{{ account.account_type }}">{{ account.account_type }}</option>
+                <option value="{{ account.account_type }}">{{ account.account_type|title }}</option>
                 {% endif %}
                 {% endfor %}
                 </select>
@@ -47,6 +47,7 @@
             </div>
         </div>
     </form>
+</div>
 </div>
 
 {% endblock %}

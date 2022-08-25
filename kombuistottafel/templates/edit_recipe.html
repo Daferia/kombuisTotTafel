@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class="container">
 <div class="row card-panel grey lighten-5 item-radius z-depth-2">
-
 <h3 class="center-align green-text">{{ recipe.recipe_name|title }}</h3>
-
-<div class="row">
   <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">
     <div class="row">
       <div class="input-field inline col s12 m6">
@@ -104,5 +101,4 @@
   </form>
 </div>
 </div>
-
 {% endblock %}
