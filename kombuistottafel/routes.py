@@ -11,7 +11,13 @@ from kombuistottafel.models import Category, Account, Users
 @app.route('/')
 @app.route("/home")
 def home():
-    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+
     return render_template("home.html", username=username)
 
 
