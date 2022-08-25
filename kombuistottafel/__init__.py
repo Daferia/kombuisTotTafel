@@ -15,7 +15,7 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 
 
 # local DB
-if os.environ.get("DEBUG") == "True":
+if os.environ.get("DEVELOPMENT") == "True":
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
 else:
     # heroku DB
