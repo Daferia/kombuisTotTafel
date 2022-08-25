@@ -15,15 +15,18 @@ def home():
     if "user" not in session:
         username = ""
     else:
-        username = Users.query.filter(Users.user_name == session[
-                                      "user"]).all()[0]
+        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
 
     return render_template("home.html", username=username)
 
 
 @app.route("/recipes")
 def recipes():
-    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+        
     recipes = list(mongo.db.recipes.find())
     categories = list(Category.query.order_by(Category.category_name).all())
 
@@ -33,7 +36,11 @@ def recipes():
 
 @app.route("/view_recipe/<recipe_id>")
 def view_recipe(recipe_id):
-    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     categories = list(Category.query.order_by(Category.category_name).all())
 
@@ -43,11 +50,13 @@ def view_recipe(recipe_id):
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
-    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
-
     if "user" not in session:
+        username = ""
         flash("You need to be logged in to add a recipe")
         return redirect(url_for("login"))
+    else:
+        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+
 
     if request.method == "POST":
         recipe = {
@@ -74,7 +83,10 @@ def add_recipe():
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
     # using username for nav bar authentication
-    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
 
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
 
@@ -101,7 +113,8 @@ def edit_recipe(recipe_id):
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("edit_recipe.html",
-                           recipe=recipe, categories=categories, username=username)
+                           recipe=recipe, categories=categories, 
+                           username=username)
 
 
 @app.route("/delete_recipe/<recipe_id>")
@@ -110,7 +123,7 @@ def delete_recipe(recipe_id):
 
     if "user" not in session or session["user"] != recipe["added_by"]:
         flash("You can only delete your own recipes!")
-        return redirect(url_for("login"))
+        return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
     mongo.db.recipes.delete_one({'_id': ObjectId(recipe_id)})
     flash("Recipe has been deleted")
