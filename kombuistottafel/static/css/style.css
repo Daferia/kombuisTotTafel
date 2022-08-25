@@ -1,137 +1,165 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;700&family=Satisfy&display=swap');
 
 body {
-   background-color: whitesmoke;
-   font-family: 'Merriweather Sans', sans-serif;
-   display: flex;
-   min-height: 100vh;
-   flex-direction: column;
+  background-color: whitesmoke;
+  background-image: linear-gradient(rgba(255,255,255, 0.7)0 100%),url("../images/lukas-blazek-EWDvHNNfUmQ-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Merriweather Sans', sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-nav .brand-logo{
-   font-size: 1.3rem !important;
-   font-family: 'Satisfy', cursive;
+.nav-margin {
+  margin-bottom: 0;
+}
+
+nav a,
+.brand-logo,
+.base-font {
+  font-size: 1.3rem !important;
+  font-family: 'Satisfy', cursive;
 }
 
 main {
-   flex: 1 0 auto;
- }
+  flex: 1 0 auto;
+}
 
 nav .brand-logo {
-   padding: 0 10px;
-   font-size: 1.1rem;
+  padding: 0 10px;
+  font-size: 1.1rem;
 }
 
-.hero {
-   background: url(../images/teodor-skrebnev-DcIZJsskTfg-unsplash.jpg) no-repeat center center;
-   background-size: cover;
-   height: 50vh;
- }
+.hero-image {
+  background: url(../images/teodor-skrebnev-DcIZJsskTfg-unsplash.jpg) no-repeat center center;
+  background-size: cover;
+  height: 80vh;
+}
 
- .social-links {
+.hero-text {
+  background-color: rgba(183, 28, 28, 0.9);
+  border: 3px solid rgb(255, 255, 255);
+  margin: 3rem !important;
+}
+
+.hero-text h1 {
+  font-size: 3rem !important;
+
+}
+
+.social-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-links a {
+  color: rgb(245, 245, 245);
+}
+
+/* Recipe Styling */
+
+.recipe-details {
+  line-height: 0.1;
+  border-top: 1px solid rgb(0, 0, 0);
+}
+
+.recipe-img {
+  object-fit: cover;
+  object-position: center;
+  height: 200px;
+  width: 200px;
+  margin: auto;
+  border-radius: 5px;
+}
+
+.list-spacing {
+  margin: 1em 0;
+}
+
+/* Flash Message Styling */
+
+.flash-message h5 {
+  padding: 10px !important;
+  border-radius: 5px;
+}
+
+/* Card additional Styling */
+
+.card-responsive {
+  width: 100%;
+  height: 30vh !important;
+  overflow: hidden;
+}
+
+.placeholder-img {
+  margin: auto !important;
+}
+
+.card-top-margin {
+  margin-top: 5% !important;
+}
+
+.card-extended {
+  padding: 15px;
+  height: 10vh;
+  border-top: 1px solid gray;
+}
+
+.card-padding {
+  padding: 10px;
+}
+
+/* add radius to various elements */
+
+.item-radius {
+  border-radius: 5px;
+}
+
+.modal-resize {
+  height: 50vh !important;
+  top: 20% !important;
+}
+
+/* Viewport styling */
+
+@media only screen and (min-width: 600px) {
+  .vertical-align {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-between;
- }
-
- /* Recipe Styling */
-
- .recipe-details {
-   line-height: 0.1;
-   border-top: 1px solid rgb(0, 0, 0);
- }
-
- .recipe-img {
-   object-fit: cover;
-   object-position: center;
-   height: 200px;
-   width: 200px; 
-   margin: auto;
-   border-radius: 5px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
 }
 
- .list-spacing {
-   margin: 1em 0;
- }
+@media only screen and (min-width: 900px) {
 
- /* Flash Message Styling */
+  nav,
+  .brand-logo,
+  .base-font {
+    font-size: 2rem !important;
+  }
 
- .flash-message h5{
-   padding: 10px !important;
-   border-radius: 5px;
- }
+  .hero-text {
+    margin: 10% 0 0 10% !important;
+    width: 40vw;
+  }
 
- /* Card additional Styling */
+  .modal-resize {
+    width: 40vw !important;
+    height: 45vh !important;
+    top: 20% !important;
+  }
 
- .card-responsive {
-   width: 100%;
-   height: 30vh !important;
-   overflow: hidden;
- }
+  .recipe-img {
 
- .placeholder-img {
-   margin: auto !important;
- }
+    height: 300px;
+    width: 300px;
 
- .card-extended {
-   padding: 15px;
-   height: 10vh;
-   border-top: 1px solid gray;
- }
+  }
 
- .card-padding {
-   padding: 10px;
- }
-
- /* add radius to various elements */
-
- .item-radius {
-   border-radius: 5px;
- }
-
- .modal-resize {
-   height: 50vh !important;
-   top: 20% !important;
- }
-
- /* Viewport styling */
-
- @media only screen and (min-width: 600px) {
-    .vertical-align {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center;
-    }
- }
-
- @media only screen and (min-width: 900px) {
-   nav .brand-logo{
-      font-size: 2rem !important;
-   }
-
-    .modal-resize {
-      width: 40vw !important;
-      height: 45vh !important;
-      top: 20% !important;
-    }
-
-    .recipe-img {
-
-      height: 300px;
-      width: 300px; 
-
-   }
-
- }
-
-
-
-
-
-
-
-
+}
