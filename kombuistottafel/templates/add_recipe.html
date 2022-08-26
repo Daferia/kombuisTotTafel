@@ -6,7 +6,7 @@
   <form class="col s12" method="POST" action="{{ url_for('add_recipe') }}">
     <div class="row">
       <div class="input-field inline col s12 m6">
-        <input id="recipe_name" name="recipe_name" type="text" class="validate"
+        <input id="recipe_name" name="recipe_name" type="text" maxlength="40" class="validate"
           required>
         <label for="recipe_name">Recipe Name</label>
       </div>
