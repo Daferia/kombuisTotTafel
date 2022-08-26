@@ -3,8 +3,6 @@
 <div class="container">
 <div class="row card-panel grey lighten-5 item-radius">
   <h4 class="green-text center-align">Find A Recipe</h4>
-
-
   <form action="{{ url_for('search')}}" method="POST" class="col s12">
     <div class="row valign-wrapper center-align">
       <div class="input-field col s12 m8">
@@ -13,10 +11,11 @@
         <label for="query">Search Tasks</label>
       </div>
       <div class="col s12 m4">
-        <a href="{{ url_for('recipes') }}" class="red btn text-shadow item-radius">Reset</a>
-        <button type="submit" class="green btn text-shadow item-radius">
+                <button type="submit" class="green btn text-shadow item-radius">
           <i class="fas fa-search right"></i> Search Recipes
         </button>
+        <a href="{{ url_for('recipes') }}" class="red btn text-shadow item-radius">Reset</a>
+
       </div>
     </div>
   </form>
@@ -24,7 +23,7 @@
 
 <!-- Recipe Main Card -->
 <div class="row">
-  <div class="col s12 card-panel item-radius">
+  <div class="col s12">
     <h2 class="green-text center-align">Recipes</h2>
 
     <!-- Recipe Individual Card -->
