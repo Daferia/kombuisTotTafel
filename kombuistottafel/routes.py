@@ -15,7 +15,8 @@ def home():
     if "user" not in session:
         username = ""
     else:
-        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
 
     return render_template("home.html", username=username)
 
@@ -25,8 +26,9 @@ def recipes():
     if "user" not in session:
         username = ""
     else:
-        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
-        
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+
     recipes = list(mongo.db.recipes.find())
     categories = list(Category.query.order_by(Category.category_name).all())
 
@@ -39,13 +41,14 @@ def view_recipe(recipe_id):
     if "user" not in session:
         username = ""
     else:
-        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
 
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     categories = list(Category.query.order_by(Category.category_name).all())
 
-    return render_template("view_recipe.html",
-                           recipe=recipe, categories=categories, username=username)
+    return render_template("view_recipe.html", recipe=recipe,
+                           categories=categories, username=username)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -55,8 +58,8 @@ def add_recipe():
         flash("You need to be logged in to add a recipe")
         return redirect(url_for("login"))
     else:
-        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
-
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
 
     if request.method == "POST":
         recipe = {
@@ -77,7 +80,8 @@ def add_recipe():
         return redirect(url_for("recipes"))
 
     categories = list(Category.query.order_by(Category.category_name).all())
-    return render_template("add_recipe.html", categories=categories, username=username)
+    return render_template("add_recipe.html",
+                           categories=categories, username=username)
 
 
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
@@ -86,7 +90,8 @@ def edit_recipe(recipe_id):
     if "user" not in session:
         username = ""
     else:
-        username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
 
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
 
@@ -112,9 +117,8 @@ def edit_recipe(recipe_id):
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
     categories = list(Category.query.order_by(Category.category_name).all())
-    return render_template("edit_recipe.html",
-                           recipe=recipe, categories=categories, 
-                           username=username)
+    return render_template("edit_recipe.html", recipe=recipe,
+                           categories=categories, username=username)
 
 
 @app.route("/delete_recipe/<recipe_id>")
@@ -145,7 +149,8 @@ def admin():
     usernames = list(Users.query.order_by(Users.user_name).all())
 
     return render_template("admin.html", categories=categories,
-                           accounts=accounts, usernames=usernames, username=username)
+                           accounts=accounts, usernames=usernames,
+                           username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
@@ -358,4 +363,5 @@ def delete_user(id):
 def search():
     query = request.form.get("query")
     recipes = list(mongo.db.recipes.find({"$text": {"$search": query}}))
-    return render_template("recipes.html", recipes=recipes)
+    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
+    return render_template("recipes.html", recipes=recipes, username=username)
