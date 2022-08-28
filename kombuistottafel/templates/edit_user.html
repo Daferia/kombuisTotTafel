@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container">
-<h3 class="green-text center-align">Add New User</h3>
+<h3 class="green-text center-align">Edit User</h3>
 
     <div class="row">
     <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_user', id=user.id) }}">
@@ -25,9 +25,10 @@
                     <label for="password">Password</label>
                 </div>
             </div>
+            <!-- Account Type -->
             <div class="input-field col s12">
                 <select id="account_type" name="account_type" class="validate" required>
-
+                
                 <option value="" disabled>Select a Category</option>
                 {% for account in accounts %}
                 {% if account.account_type == user.account_type %}
@@ -39,7 +40,7 @@
                 </select>
                 <label>Account Type</label>
               </div>
-               <!-- register -->
+               <!-- Update button -->
             <div class="row">
                 <button type="submit" class="col s12 btn-small green text-shadow">
                     Edit User <i class="fas fa-sign-in-alt"></i>
