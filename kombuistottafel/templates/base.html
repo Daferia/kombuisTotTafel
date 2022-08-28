@@ -2,112 +2,114 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-        type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-    <title>Kombuis Tot Tafel</title>
-    <!-- add icon link -->
-    <link rel="icon" href="../static/images/logo.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+  <title>Kombuis Tot Tafel</title>
+
+  <!-- add icon link -->
+  <link rel="icon" href="../static/images/logo.png" type="image/x-icon">
 </head>
 
 <body>
-    <header>
-        <div class="row nav-margin">
-            <!-- Desktop Navbar -->
-            <nav>
-                <div class="nav-wrapper red darken-4">
-                    <a href="{{ url_for('home') }}" class="brand-logo">Kombuis tot Tafel</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="{{ url_for('home') }}">Home</a></li>
-                        <li><a href="{{ url_for('recipes') }}">Recipes</a></li>
-                        {% if session["user"] %}
-                        {% if username.user_name == session["user"] %}
-                        <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
-                        <li><a href="{{ url_for('add_recipe') }}">Add Recipes</a></li>
-                        {% if username.account_type == "admin" %}
-                        <li><a href="{{ url_for('admin') }}">Admin Settings</a></li>
-                        {% endif %}
-                        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-                        {% endif %}
-                        {% else %}
-                        <li><a href="{{ url_for('register') }}">Register</a></li>
-                        <li><a href="{{ url_for('login') }}">Login</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </nav>
-            <!-- hamburger/mobile navbar -->
-            <ul class="sidenav" id="mobile-demo">
-                <li><a class="red-text darken-4" href="{{ url_for('home') }}">Home</a></li>
-                <li><a class="red-text darken-4" href="{{ url_for('recipes') }}">Recipes</a></li>
-                {% if session["user"] %}
-                {% if username.user_name == session["user"] %}
-                <li><a class="red-text darken-4" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
-                </li>
-                <li><a class="red-text darken-4" href="{{ url_for('add_recipe') }}">Add Recipes</a></li>
-                {% if username.account_type == "admin" %}
-                <li><a class="red-text darken-4" href="{{ url_for('admin') }}">Admin Settings</a></li>
-                {% endif %}
-                <li><a class="red-text darken-4" href="{{ url_for('logout') }}">Log Out</a></li>
-                {% endif %}
-                {% else %}
-                <li><a class="red-text darken-4" href="{{ url_for('register') }}">Register</a></li>
-                <li><a class="red-text darken-4" href="{{ url_for('login') }}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
+  <header>
+    <div class="row nav-margin">
 
-    </header>
-    <main>
-        <!-- flash messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="row flash-message ">
-            <h5 class="col s6 offset-s3 green darken-2 white-text center-align z-depth-3">{{ message }}</h5>
+      <!-- Desktop Navbar -->
+      <nav>
+        <div class="nav-wrapper red darken-4">
+          <a href="{{ url_for('home') }}" class="brand-logo">Kombuis tot Tafel</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('recipes') }}">Recipes</a></li>
+            {% if session["user"] %}
+            {% if username.user_name == session["user"] %}
+            <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
+            <li><a href="{{ url_for('add_recipe') }}">Add Recipes</a></li>
+            {% if username.account_type == "admin" %}
+            <li><a href="{{ url_for('admin') }}">Admin Settings</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% endif %}
+            {% else %}
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+          </ul>
         </div>
-        {% endfor %}
+      </nav>
+
+      <!-- hamburger/mobile navbar -->
+      <ul class="sidenav" id="mobile-demo">
+        <li><a class="red-text darken-4" href="{{ url_for('home') }}">Home</a></li>
+        <li><a class="red-text darken-4" href="{{ url_for('recipes') }}">Recipes</a></li>
+        {% if session["user"] %}
+        {% if username.user_name == session["user"] %}
+        <li><a class="red-text darken-4" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
+        </li>
+        <li><a class="red-text darken-4" href="{{ url_for('add_recipe') }}">Add Recipes</a></li>
+        {% if username.account_type == "admin" %}
+        <li><a class="red-text darken-4" href="{{ url_for('admin') }}">Admin Settings</a></li>
         {% endif %}
-        {% endwith %}
+        <li><a class="red-text darken-4" href="{{ url_for('logout') }}">Log Out</a></li>
+        {% endif %}
+        {% else %}
+        <li><a class="red-text darken-4" href="{{ url_for('register') }}">Register</a></li>
+        <li><a class="red-text darken-4" href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
 
-        <!-- main content goes here -->
-        {% block content %}
-        {% endblock %}
+  </header>
+  <main>
 
-    </main>
-    <!-- footer with sticky -->
-    <footer class="page-footer red darken-4">
-        <div class="container">
-            <div class="row">
-                <div class="col s6 offset-s3">
-                    <h5 class="white-text center-align base-font">Lets get social!</h5>
-                    <ul class="social-links">
-                        <li><a class="hoverable" href="https://www.facebook.com" target="_blank"><i
-                                    class="fa-brands fa-facebook"></i></a></li>
-                        <li><a class="hoverable" href="#!"><i class="fa-brands fa-square-instagram"></i></a></li>
-                        <li><a class="hoverable" href="#!"><i class="fa-brands fa-pinterest"></i></a></li>
-                        <li><a class="hoverable" href="#!"><i class="fa-brands fa-youtube"></i></a></li>
-                    </ul>
-                </div>
+    <!-- flash messages -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="row flash-message ">
+      <h5 class="col s6 offset-s3 green darken-2 white-text center-align z-depth-3">{{ message }}</h5>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
-            </div>
+    <!-- main content goes here -->
+    {% block content %}
+    {% endblock %}
+
+  </main>
+
+  <!-- footer with sticky -->
+  <footer class="page-footer red darken-4">
+    <div class="container">
+      <div class="row">
+        <div class="col s6 offset-s3">
+          <h5 class="white-text center-align base-font">Lets get social!</h5>
+          <ul class="social-links">
+            <li><a class="hoverable" href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a class="hoverable" href="https://www.instagram.com" target="_blank"><i class="fa-brands fa-square-instagram"></i></a></li>
+            <li><a class="hoverable" href="https://www.pinterest.com" target="_blank"><i class="fa-brands fa-pinterest"></i></a></li>
+            <li><a class="hoverable" href="https://www.youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a></li>
+          </ul>
         </div>
-        <div class="footer-copyright">
-            <div class="container center-align">
-                <a class="grey-text text-lighten-4" href="https://github.com/Daferia">© 2022 Daferia</a>
-            </div>
-        </div>
-    </footer>
-    <!-- JavaScript links -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container center-align">
+        <a class="grey-text text-lighten-4" href="https://github.com/Daferia" target="_blank">© 2022 Daferia</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript links -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
