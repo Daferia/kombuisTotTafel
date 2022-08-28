@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <h3 class="green-text center-align">Edit Account</h3>
+
+    <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_account', account_id=account.id) }}">
+        <div class="card-panel item-radius">
+            <!-- Account name -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="fas fa-plus prefix green-text"></i>
+                    <input id="account_type" name="account_type" value="{{ account.account_type }}" minlength="3"
+                        maxlength="25" type="text" class="validate" required>
+                    <label for="account_type">Account Type</label>
+                </div>
+            </div>
+            <!-- Add Account button -->
+            <div class="row">
+                <div class="col s12 center-align">
+                    <button type="submit" class="waves-effect waves-light btn-small green item-radius"
+                        alt="Add category">
+                        Edit Account Type <i class="fas fa-edit right"></i></button>
+                    <!-- cancel button -->
+                    <a href="{{ url_for('admin') }}"
+                        class="waves-effect waves-light btn-small red accent-4 item-radius">
+                        Cancel <i class="fas fa-times-circle right"></i>
+                    </a>
+                </div>
+            </div>
+    </form>
+</div>
+
+
+
+{% endblock %}
