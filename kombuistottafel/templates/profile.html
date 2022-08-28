@@ -6,6 +6,11 @@
     <h3 class="center-align green-text">
       {{ username|title }}'s Profile
     </h3>
+    <div class="row ">
+      <div class="col s12 center-align">
+        <a class="waves-effect waves-light btn-small green item-radius" href="{{ url_for('edit_profile', id=username.id) }}">
+          Edit Profile <i class="fa-solid fa-pencil"></i></a>
+</div></div></div>
   </div>
   <div class="row">
     {% if user_recipes|length > 0 %}
