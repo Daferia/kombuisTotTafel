@@ -150,7 +150,7 @@ def admin():
     # Query db for username
     username = Users.query.filter(Users.user_name == session[
                                   "user"]).all()[0]
-    
+
     # Authentication to stop access using url
     if "user" not in session or username.account_type != "admin":
         flash("You need to have permissions to view the Admin Page!")
@@ -162,7 +162,8 @@ def admin():
     usernames = list(Users.query.order_by(Users.user_name).all())
 
     return render_template("admin.html", categories=categories,
-                           accounts=accounts, usernames=usernames, username=username)
+                           accounts=accounts, usernames=usernames,
+                           username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
@@ -179,11 +180,12 @@ def add_category():
         flash("You dont have permissions to add categories!")
         return redirect(url_for("recipes"))
 
-
     # Adding the new Category to the db
     if request.method == "POST":
-        existing_category = Category.query.filter(Category.category_name == request.form.get(
-                                           "category_name").lower()).all()
+        existing_category = Category.query.filter(
+                            Category.category_name ==
+                            request.form.get("category_name").lower()).all()
+
         # checking to see if db is in the db
         if existing_category:
             flash("Category name already exists")
@@ -211,16 +213,18 @@ def edit_category(category_id):
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
-    # Authentication to stop access using url                                  
+    # Authentication to stop access using url
     if username.account_type != "admin":
         flash("You need to have permissions to edit categories!")
         return redirect(url_for("profile", username=username))
 
     category = Category.query.get_or_404(category_id)
-        
+
     if request.method == "POST":
-        existing_category = Category.query.filter(Category.category_name == request.form.get(
-                                           "category_name").lower()).all()
+        existing_category = Category.query.filter(
+                            Category.category_name ==
+                            request.form.get("category_name").lower()).all()
+
         # checking to see if db is in the db
         if existing_category:
             flash("Category name already exists")
@@ -232,7 +236,8 @@ def edit_category(category_id):
             flash("Category name updated!")
             return redirect(url_for("admin"))
 
-    return render_template("edit_category.html", category=category, username=username)
+    return render_template("edit_category.html",
+                           category=category, username=username)
 
 
 @app.route("/delete_category/<int:category_id>")
@@ -269,8 +274,8 @@ def add_account_type():
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
-    
-    # Authentication to stop access using url                                  
+
+    # Authentication to stop access using url
     if username.account_type != "admin":
         flash("You need to have permission to edit categories!")
         return redirect(url_for("profile", username=username))
@@ -306,12 +311,12 @@ def edit_account(account_id):
         db.session.commit()
         return redirect(url_for("admin"))
     return render_template("edit_account.html", account=account,
-                            username=username)
+                           username=username)
 
 
 @app.route("/delete_account/<int:account_id>")
 def delete_account(account_id):
-    
+
     # Authentication to stop access using url
     if "user" not in session or session["user"] != "admin":
         flash("You dont have permission to delete accounts!")
@@ -335,16 +340,17 @@ def register():
             flash("Username already exists")
             return redirect(url_for("login"))
         elif request.form.get("username").lower() == "admin":
-            user = Users(user_name= "admin",
-            password=generate_password_hash(request.form.get("password")),
-            account_type="admin",
+            user = Users(
+                user_name="admin",
+                password=generate_password_hash(request.form.get("password")),
+                account_type="admin",
             )
         else:
             user = Users(
-            user_name=request.form.get("username").lower(),
-            password=generate_password_hash(request.form.get("password")),
-            account_type="client",
-        )
+                user_name=request.form.get("username").lower(),
+                password=generate_password_hash(request.form.get("password")),
+                account_type="client",
+            )
 
         db.session.add(user)
         db.session.commit()
@@ -412,7 +418,7 @@ def edit_profile(id):
     user = Users.query.get_or_404(id)
 
     # Authentication to stop access using url
-    if session["user"]!= username.user_name:
+    if session["user"] != username.user_name:
         flash("You dont have permissions to add categories!")
         return redirect(url_for("recipes"))
 
@@ -421,7 +427,7 @@ def edit_profile(id):
         user.password = generate_password_hash(request.form.get("password")),
 
         db.session.commit()
-        
+
         # put the updated 'user' into 'session' cookie
         session["user"] = request.form.get("username").lower()
         flash("Profile updated successful!")
@@ -455,7 +461,6 @@ def add_new_user():
         flash("You need to have permission to delete categories!")
         return redirect(url_for("profile", username=username))
 
-
     accounts = list(Account.query.order_by(Account.account_type).all())
 
     if request.method == "POST":
@@ -479,7 +484,8 @@ def add_new_user():
         flash("Added New User Successful!")
         return redirect(url_for("admin"))
 
-    return render_template("add_new_user.html", accounts=accounts, username=username)
+    return render_template("add_new_user.html",
+                           accounts=accounts, username=username)
 
 
 @app.route("/edit_user/<int:id>", methods=["GET", "POST"])
@@ -508,7 +514,8 @@ def edit_user(id):
 
         db.session.commit()
         return redirect(url_for("admin"))
-    return render_template("edit_user.html", user=user, accounts=accounts, username=username)
+    return render_template("edit_user.html",
+                           user=user, accounts=accounts, username=username)
 
 
 @app.route("/delete_user/<int:id>")
