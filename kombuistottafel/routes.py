@@ -12,6 +12,7 @@ from kombuistottafel.models import Category, Account, Users
 @app.route("/home")
 def home():
 
+    # sets authentication for navbar links
     if "user" not in session:
         username = ""
     else:
@@ -23,6 +24,8 @@ def home():
 
 @app.route("/recipes")
 def recipes():
+
+    # sets authentication for navbar links
     if "user" not in session:
         username = ""
     else:
@@ -38,13 +41,17 @@ def recipes():
 
 @app.route("/view_recipe/<recipe_id>")
 def view_recipe(recipe_id):
+
+    # sets authentication for navbar links
     if "user" not in session:
         username = ""
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
+    # search for recipes from mongo Db
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+    # search for categories from PSQL DB
     categories = list(Category.query.order_by(Category.category_name).all())
 
     return render_template("view_recipe.html", recipe=recipe,
@@ -53,6 +60,8 @@ def view_recipe(recipe_id):
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
+
+    # sets authentication for navbar links
     if "user" not in session:
         username = ""
         flash("You need to be logged in to add a recipe")
@@ -60,7 +69,7 @@ def add_recipe():
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
-
+    # add recipe if POST is True
     if request.method == "POST":
         recipe = {
             "recipe_name": request.form.get("recipe_name"),
@@ -97,7 +106,7 @@ def edit_recipe(recipe_id):
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
-
+    # edit recipe submission
     if request.method == "POST":
         submit = {"$set": {
             "recipe_name": request.form.get("recipe_name"),
@@ -111,6 +120,7 @@ def edit_recipe(recipe_id):
             "image_url": request.form.get("image_url"),
             "added_by": session["user"]
         }}
+        # update mongo db
         mongo.db.recipes.update_one({"_id": ObjectId(recipe_id)}, submit)
         flash("Recipe has been updated")
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
@@ -122,8 +132,10 @@ def edit_recipe(recipe_id):
 
 @app.route("/delete_recipe/<recipe_id>")
 def delete_recipe(recipe_id):
+    # find recipe in mongo
     recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
 
+    # sets authentication and checks for deletion
     if "user" not in session or session["user"] != recipe["added_by"]:
         flash("You can only delete your own recipes!")
         return redirect(url_for("view_recipe", recipe_id=recipe_id))
@@ -139,12 +151,12 @@ def admin():
     username = Users.query.filter(Users.user_name == session[
                                   "user"]).all()[0]
     
-    # Authentication criteria
+    # Authentication to stop access using url
     if "user" not in session or username.account_type != "admin":
         flash("You need to have permissions to view the Admin Page!")
         return redirect(url_for("recipes"))
 
-    # Get lists from DB for admind tables - Categories, Accounts and users
+    # Get lists from DB for admin tables - Categories, Accounts and users
     categories = list(Category.query.order_by(Category.category_name).all())
     accounts = list(Account.query.order_by(Account.account_type).all())
     usernames = list(Users.query.order_by(Users.user_name).all())
@@ -162,6 +174,7 @@ def add_category():
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
+    # Authentication to stop access using url
     if "user" not in session or username.account_type != "admin":
         flash("You dont have permissions to add categories!")
         return redirect(url_for("recipes"))
@@ -189,7 +202,7 @@ def add_category():
 @app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
 def edit_category(category_id):
 
-    # using username for nav bar authentication
+    # using username for navbar and page authentication
     if "user" not in session:
         username = ""
         flash("You need to have permission view this page!")
@@ -197,6 +210,8 @@ def edit_category(category_id):
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
+
+    # Authentication to stop access using url                                  
     if username.account_type != "admin":
         flash("You need to have permissions to edit categories!")
         return redirect(url_for("profile", username=username))
@@ -229,6 +244,7 @@ def delete_category(category_id):
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
+    # Authentication to stop access using url
     if "user" not in session:
         flash("You need to have permission view this page!")
         return redirect(url_for("home"))
@@ -253,6 +269,8 @@ def add_account_type():
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
+    
+    # Authentication to stop access using url                                  
     if username.account_type != "admin":
         flash("You need to have permission to edit categories!")
         return redirect(url_for("profile", username=username))
@@ -276,6 +294,8 @@ def edit_account(account_id):
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
+
+    # Authentication to stop access using url
     if username.account_type != "admin":
         flash("You need to have permission to edit categories!")
         return redirect(url_for("profile", username=username))
@@ -291,6 +311,8 @@ def edit_account(account_id):
 
 @app.route("/delete_account/<int:account_id>")
 def delete_account(account_id):
+    
+    # Authentication to stop access using url
     if "user" not in session or session["user"] != "admin":
         flash("You dont have permission to delete accounts!")
         return redirect(url_for("login"))
@@ -389,6 +411,7 @@ def edit_profile(id):
                                       "user"]).all()[0]
     user = Users.query.get_or_404(id)
 
+    # Authentication to stop access using url
     if session["user"]!= username.user_name:
         flash("You dont have permissions to add categories!")
         return redirect(url_for("recipes"))
@@ -424,6 +447,7 @@ def add_new_user():
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
+    # Authentication to stop access using url
     if "user" not in session:
         flash("You need to have permission view this page!")
         return redirect(url_for("home"))
@@ -467,6 +491,7 @@ def edit_user(id):
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
+    # Authentication to stop access using url
     if "user" not in session:
         flash("You need to have permission view this page!")
         return redirect(url_for("home"))
@@ -495,6 +520,7 @@ def delete_user(id):
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
 
+    # Authentication to stop access using url
     if "user" not in session or username.account_type != "admin":
         flash("You need to have permission view this page!")
         return redirect(url_for("home"))
