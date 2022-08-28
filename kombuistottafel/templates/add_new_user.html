@@ -25,11 +25,12 @@
                     <label for="password">Password</label>
                 </div>
             </div>
+            <!-- account selection -->
             <div class="input-field col s12">
                 <select id="account_type" name="account_type" class="validate" required>
                     <option value="" disabled selected>Choose your option</option>
                 {% for account in accounts %}
-                  <option value="{{ account.account_type }}">{{ account.account_type }}</option>
+                  <option value="{{ account.account_type }}">{{ account.account_type|title }}</option>
                   {% endfor %}
                 </select>
                 <label>Account Type</label>
