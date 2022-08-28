@@ -119,7 +119,10 @@ nav .brand-logo {
   border-radius: 5px;
 }
 
-.modal-resize {
+/* Modal sytling */
+
+.modal-resize,
+.modal-delete-resize {
   height: 50vh !important;
   top: 20% !important;
 }
@@ -165,6 +168,12 @@ nav .brand-logo {
     width: 40vw !important;
     height: 45vh !important;
     top: 20% !important;
+  }
+
+  .modal-delete-resize {
+    width: 30vw !important;
+    height: 25vh !important;
+    top: 15% !important;
   }
 
   .recipe-img {
