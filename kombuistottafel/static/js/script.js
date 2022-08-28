@@ -15,8 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let select = document.querySelectorAll('select');
   M.FormSelect.init(select);
 
-
-
+    // function to add styling to Materilize Select
     validateMaterializeSelect();
     function validateMaterializeSelect() {
         let classValid = "border-bottom: 1px solid #4caf50; box-shadow: 0 1px 0 0 #4caf50;";
