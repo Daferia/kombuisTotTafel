@@ -401,7 +401,7 @@ def edit_profile(id):
         
         # put the updated 'user' into 'session' cookie
         session["user"] = request.form.get("username").lower()
-        flash("Registration Successful!")
+        flash("Profile updated successful!")
         return render_template("profile.html", username=username, user=user)
 
     return render_template("edit_profile.html", username=username, user=user)
