@@ -86,18 +86,17 @@ def add_recipe():
 
 @app.route("/edit_recipe/<recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
+    recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+
     # using username for nav bar authentication
-    if "user" not in session:
+
+    if "user" not in session or session["user"] != recipe["added_by"]:
         username = ""
+        flash("You can only edit your own recipes!")
+        return redirect(url_for("view_recipe", recipe_id=recipe_id))
     else:
         username = Users.query.filter(Users.user_name == session[
                                       "user"]).all()[0]
-
-    recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
-
-    if "user" not in session or session["user"] != recipe["added_by"]:
-        flash("You can only edit your own recipes!")
-        return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
     if request.method == "POST":
         submit = {"$set": {
@@ -136,58 +135,106 @@ def delete_recipe(recipe_id):
 
 @app.route("/admin")
 def admin():
+    # Query db for username
+    username = Users.query.filter(Users.user_name == session[
+                                  "user"]).all()[0]
+    
+    # Authentication criteria
+    if "user" not in session or username.account_type != "admin":
+        flash("You need to have permissions to view the Admin Page!")
+        return redirect(url_for("recipes"))
 
-    if "user" not in session:
-        flash("You need to have permission to view this page!")
-        return redirect(url_for("login"))
-
-    # using username for nav bar authentication
-    username = Users.query.filter(Users.user_name == session["user"]).all()[0]
-
+    # Get lists from DB for admind tables - Categories, Accounts and users
     categories = list(Category.query.order_by(Category.category_name).all())
     accounts = list(Account.query.order_by(Account.account_type).all())
     usernames = list(Users.query.order_by(Users.user_name).all())
 
     return render_template("admin.html", categories=categories,
-                           accounts=accounts, usernames=usernames,
-                           username=username)
+                           accounts=accounts, usernames=usernames, username=username)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
 def add_category():
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
 
-    if "user" not in session or session["user"] != "admin":
-        flash("You dont have permission to add categories!")
-        return redirect(url_for("login"))
+    if "user" not in session or username.account_type != "admin":
+        flash("You dont have permissions to add categories!")
+        return redirect(url_for("recipes"))
 
+
+    # Adding the new Category to the db
     if request.method == "POST":
-        category = Category(category_name=request.form.get(
-                            "category_name").lower())
-        db.session.add(category)
-        db.session.commit()
-        return redirect(url_for("admin"))
-    return render_template("add_category.html")
+        existing_category = Category.query.filter(Category.category_name == request.form.get(
+                                           "category_name").lower()).all()
+        # checking to see if db is in the db
+        if existing_category:
+            flash("Category name already exists")
+            return redirect(url_for("admin"))
+        # if not add new category
+        else:
+            category = Category(category_name=request.form.get(
+                                "category_name").lower())
+            db.session.add(category)
+            db.session.commit()
+            return redirect(url_for("admin"))
+
+    return render_template("add_category.html", username=username)
 
 
 @app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
 def edit_category(category_id):
-    if "user" not in session or session["user"] != "admin":
-        flash("You dont have permission to edit categoies!")
-        return redirect(url_for("login"))
+
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+    if username.account_type != "admin":
+        flash("You need to have permissions to edit categories!")
+        return redirect(url_for("profile", username=username))
 
     category = Category.query.get_or_404(category_id)
+        
     if request.method == "POST":
-        category.category_name = request.form.get("category_name").lower()
-        db.session.commit()
-        return redirect(url_for("admin"))
-    return render_template("edit_category.html", category=category)
+        existing_category = Category.query.filter(Category.category_name == request.form.get(
+                                           "category_name").lower()).all()
+        # checking to see if db is in the db
+        if existing_category:
+            flash("Category name already exists")
+            return redirect(url_for("admin"))
+        # if not add new category
+        else:
+            category.category_name = request.form.get("category_name").lower()
+            db.session.commit()
+            flash("Category name updated!")
+            return redirect(url_for("admin"))
+
+    return render_template("edit_category.html", category=category, username=username)
 
 
 @app.route("/delete_category/<int:category_id>")
 def delete_category(category_id):
-    if "user" not in session or session["user"] != "admin":
-        flash("You dont have permission to delete categories!")
-        return redirect(url_for("login"))
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+
+    if "user" not in session:
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+    elif username.account_type != "admin":
+        flash("You need to have permission to delete categories!")
+        return redirect(url_for("profile", username=username))
 
     category = Category.query.get_or_404(category_id)
     db.session.delete(category)
@@ -198,9 +245,17 @@ def delete_category(category_id):
 
 @app.route("/add_account_type", methods=["GET", "POST"])
 def add_account_type():
-    if "user" not in session or session["user"] != "admin":
-        flash("You dont have permission to add account types!")
-        return redirect(url_for("login"))
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+    if username.account_type != "admin":
+        flash("You need to have permission to edit categories!")
+        return redirect(url_for("profile", username=username))
 
     if request.method == "POST":
         account = Account(account_type=request.form.get(
@@ -208,7 +263,30 @@ def add_account_type():
         db.session.add(account)
         db.session.commit()
         return redirect(url_for("admin"))
-    return render_template("add_account.html")
+    return render_template("add_account.html", username=username)
+
+
+@app.route("/edit_account/<int:account_id>", methods=["GET", "POST"])
+def edit_account(account_id):
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+    if username.account_type != "admin":
+        flash("You need to have permission to edit categories!")
+        return redirect(url_for("profile", username=username))
+
+    account = Account.query.get_or_404(account_id)
+    if request.method == "POST":
+        account.account_type = request.form.get("account_type").lower()
+        db.session.commit()
+        return redirect(url_for("admin"))
+    return render_template("edit_account.html", account=account,
+                            username=username)
 
 
 @app.route("/delete_account/<int:account_id>")
@@ -220,7 +298,7 @@ def delete_account(account_id):
     account = Account.query.get_or_404(account_id)
     db.session.delete(account)
     db.session.commit()
-    mongo.db.tasks.delete_many({"account_id": str(account_id)})
+    mongo.db.recipe.delete_many({"account_id": str(account_id)})
     return redirect(url_for("admin"))
 
 
@@ -234,11 +312,16 @@ def register():
         if existing_user:
             flash("Username already exists")
             return redirect(url_for("login"))
-
-        user = Users(
+        elif request.form.get("username").lower() == "admin":
+            user = Users(user_name= "admin",
+            password=generate_password_hash(request.form.get("password")),
+            account_type="admin",
+            )
+        else:
+            user = Users(
             user_name=request.form.get("username").lower(),
             password=generate_password_hash(request.form.get("password")),
-            account_type="Individual",
+            account_type="client",
         )
 
         db.session.add(user)
@@ -299,6 +382,31 @@ def profile(username):
     return redirect(url_for("login"))
 
 
+@app.route("/edit_profile/<int:id>", methods=["GET", "POST"])
+def edit_profile(id):
+    # using username for nav bar authentication
+    username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+    user = Users.query.get_or_404(id)
+
+    if session["user"]!= username.user_name:
+        flash("You dont have permissions to add categories!")
+        return redirect(url_for("recipes"))
+
+    if request.method == "POST":
+        user.user_name = request.form.get("username").lower(),
+        user.password = generate_password_hash(request.form.get("password")),
+
+        db.session.commit()
+        
+        # put the updated 'user' into 'session' cookie
+        session["user"] = request.form.get("username").lower()
+        flash("Registration Successful!")
+        return render_template("profile.html", username=username, user=user)
+
+    return render_template("edit_profile.html", username=username, user=user)
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookie
@@ -309,8 +417,22 @@ def logout():
 
 @app.route("/add_new_user", methods=["GET", "POST"])
 def add_new_user():
-    accounts = list(Account.query.order_by(
-        Account.account_type).all())
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+
+    if "user" not in session:
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+    elif username.account_type != "admin":
+        flash("You need to have permission to delete categories!")
+        return redirect(url_for("profile", username=username))
+
+
+    accounts = list(Account.query.order_by(Account.account_type).all())
 
     if request.method == "POST":
         # check if username already exists in db
@@ -333,11 +455,25 @@ def add_new_user():
         flash("Added New User Successful!")
         return redirect(url_for("admin"))
 
-    return render_template("add_new_user.html", accounts=accounts)
+    return render_template("add_new_user.html", accounts=accounts, username=username)
 
 
 @app.route("/edit_user/<int:id>", methods=["GET", "POST"])
 def edit_user(id):
+    # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+
+    if "user" not in session:
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+    elif username.account_type != "admin":
+        flash("You need to have permission to delete categories!")
+        return redirect(url_for("profile", username=username))
+
     accounts = list(Account.query.order_by(Account.account_type).all())
     user = Users.query.get_or_404(id)
     if request.method == "POST":
@@ -347,11 +483,22 @@ def edit_user(id):
 
         db.session.commit()
         return redirect(url_for("admin"))
-    return render_template("edit_user.html", user=user, accounts=accounts)
+    return render_template("edit_user.html", user=user, accounts=accounts, username=username)
 
 
 @app.route("/delete_user/<int:id>")
 def delete_user(id):
+        # using username for nav bar authentication
+    if "user" not in session:
+        username = ""
+    else:
+        username = Users.query.filter(Users.user_name == session[
+                                      "user"]).all()[0]
+
+    if "user" not in session or username.account_type != "admin":
+        flash("You need to have permission view this page!")
+        return redirect(url_for("home"))
+
     user = Users.query.get_or_404(id)
     db.session.delete(user)
     db.session.commit()
