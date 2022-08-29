@@ -265,7 +265,7 @@ Click the Fork button in the top right corner.
 ## **Credits**
 For code inspiration, help and advice. Thank you!
 
-* Used the Flask mini project from Code Institute as a main template to the project
+* Used the Flask mini project from Code Institute as a main template to the project and some of the code was used in the project. I altered most of it to fit the purpose of this project.
 + [Simen Daehlin](https://github.com/Eventyret "Simen Daehlin") - Code Institute Mentor.
 + [Martina Terlevic](https://www.linkedin.com/in/martinaterlevic/ "Martina Terlevic") - Code Institute Mentor.
 + [Christopher Rees](https://portfolio.christopher-rees.co.uk/ "Christopher Rees") - Colleague, friend and motivator.
