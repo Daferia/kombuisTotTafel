@@ -27,19 +27,14 @@ View deployed site: [Kombuis tot Tafel](https://kombuis-tot-tafel.herokuapp.com/
         * [Database Structure](#database-structure)
 
 2. [Features](#features)  
-    * [EXISTING FEATURES](#existing-features)
-        * [General Features On All Pages](#general-features-on-all-pages)
-        * [Features Of Each Page](#features-of-each-page)
-        * [Features To Implement In Future](#features-to-implement-in-future)
+    * [General Features On All Pages](#general-features-on-all-pages)
+    * [Features To Implement In Future](#features-to-implement-in-future)
 
 3. [Technology Used](#technology-used)  
     * [Language Used](#language-used)
     * [Frameworks,libraries and Program Used](#frameworkslibraries-and-program-used)
-    * [ISO 639-1 Language Codes](#iso-639)  
-    * [Google Translation API](#google-translation-api)
 
 4. [Testing](#testing)
-    * [TESTING.md](#testing)
 
 5. [Deployment](#deployment)  
     * [Deployment Heroku](#deployment-to-heroku)
@@ -163,6 +158,12 @@ I chose to remove the logo in the end due to sizing issues and time constraints.
 
 ![Logo](kombuistottafel/static/images/logo.png)
 
+### **Features To Implement In Future**
+* I add authentication to the site even though it was not neccessary but I felt that it need to be almost as correct as possible. Due to time contrainst on the project, I repeated the code a bit. I look to implement a "DON'T REPEAT YOURSELF" approach in future.
+
+* I want to further expand on the Admin features by implementing an assign feature to category removal so recipes do not have to be fully deleted. I left the cascade function for the purpose of the project but that will change to a choice in future.
+* This is the same with user deletions, there will be a choice on delete all recipes or assign to "Admin"
+
 ## **Technology Used**
 
 ### **Language Used**
@@ -197,12 +198,26 @@ Tools used to test site:
 + [JSHint](https://jshint.com/ "JSHint")
     ![JSHint Result](/kombuistottafel/documentation/jshint.png "JSHint Result")
 + [PEP8](http://pep8online.com/ "PEP8") - Zero error - Results found here [PEP8 Results](/kombuistottafel/documentation/testing/ "PEP8")
-+ Lighthouse Admin Mobile
++ Lighthouse General Mobile
     ![Lighthouse Admin Mobile](kombuistottafel/documentation/lighthouse_mobileadmin.png "Lighthouse Admin Mobile")
-+ Lighthouse General Mobile
-    ![Lighthouse Admin Desktop](kombuistottafel/documentation/lighthouse_desktopadmin.png "Lighthouse Admin Desktop")
-+ Lighthouse General Mobile
-    ![Lighthouse Admin Mobile](/kombuistottafel/documentation/testing/ "Lighthouse Admin Mobile")
+
+    ![Lighthouse Home Mobile](kombuistottafel/documentation/lighthouse_mobile_home.png "Lighthouse Home Mobile")    
+    
+    ![Lighthouse Recipe Mobile](kombuistottafel/documentation/lighthouse_mobile_receipes.png "Lighthouse Recipe Mobile")    
+    
+
++ Lighthouse General Desktop
+    ![Lighthouse Admin Desktop](kombuistottafel/documentation/lighthouse_desktopadmin.png "Lighthouse Admin Desktop")    
+    ![Lighthouse Home Desktop](kombuistottafel/documentation/lighthouse_desktop_home.png "Lighthouse Home Desktop")    
+    ![Lighthouse Recipe Desktop](kombuistottafel/documentation/lighthouse_desktop_receipes.png "Lighthouse recipe Desktop")  
+
+### **Additional Testing**
+* On testing the app on HEROKU, i found the images caused the site performance to be really slow. I had to reduce all the images and it vastly imporoved the performance.
+
+
+### **Bugs**
+* On smaller deviced the hero image does not stretch to the end.
+* Modals from materialize cause the screen to "pop", and i could not fix that. Some of my testers did not notice it until I mentioned it. Future fix
 
 ## **Deployment**
 
@@ -222,6 +237,7 @@ This project was deployed using Heroku:
 10. Set the PostGres URL environmental variable in the Heroku config vars.
 11. Restart all dynos.
 12. Open the app on Heroku and check to ensure that it's working correctly.
+13. Create Admin user on DB to "close" access to admin profile.
 
 ### **How to clone**
 
