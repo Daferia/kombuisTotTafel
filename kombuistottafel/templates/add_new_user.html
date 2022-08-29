@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-  
+
 <h3 class="green-text center-align">Add New User</h3>
 
 <div class="row">
@@ -29,17 +29,25 @@
             <div class="input-field col s12">
                 <select id="account_type" name="account_type" class="validate" required>
                     <option value="" disabled selected>Choose your option</option>
-                {% for account in accounts %}
-                  <option value="{{ account.account_type }}">{{ account.account_type|title }}</option>
-                  {% endfor %}
+                    {% for account in accounts %}
+                    <option value="{{ account.account_type }}">{{ account.account_type|title }}</option>
+                    {% endfor %}
                 </select>
                 <label>Account Type</label>
-              </div>
-               <!-- register -->
+            </div>
+
             <div class="row">
-                <button type="submit" class="col s12 btn-small green text-shadow">
-                    Add User <i class="fas fa-sign-in-alt"></i>
-                </button>
+                <!-- Add user Btn -->
+                <div class="col s12 center-align">
+                    <button type="submit" class="waves-effect waves-light btn-small green item-radius">
+                        Add User <i class="fas fa-sign-in-alt"></i>
+                    </button>
+                    <!-- cancel button -->
+                    <a href="{{ url_for('admin') }}"
+                        class="waves-effect waves-light btn-small red accent-4 item-radius">
+                        Cancel <i class="fas fa-times-circle right"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </form>
