@@ -197,8 +197,12 @@ Tools used to test site:
 + [JSHint](https://jshint.com/ "JSHint")
     ![JSHint Result](/kombuistottafel/documentation/jshint.png "JSHint Result")
 + [PEP8](http://pep8online.com/ "PEP8") - Zero error - Results found here [PEP8 Results](/kombuistottafel/documentation/testing/ "PEP8")
-
-###
++ Lighthouse Admin Mobile
+    ![Lighthouse Admin Mobile](kombuistottafel/documentation/lighthouse_mobileadmin.png "Lighthouse Admin Mobile")
++ Lighthouse General Mobile
+    ![Lighthouse Admin Desktop](kombuistottafel/documentation/lighthouse_desktopadmin.png "Lighthouse Admin Desktop")
++ Lighthouse General Mobile
+    ![Lighthouse Admin Mobile](/kombuistottafel/documentation/testing/ "Lighthouse Admin Mobile")
 
 ## **Deployment**
 
