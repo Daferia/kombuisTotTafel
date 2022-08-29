@@ -1,104 +1,106 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-<div class="row card-panel grey lighten-5 item-radius z-depth-2">
-<h3 class="center-align green-text">{{ recipe.recipe_name|title }}</h3>
-  <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">
-    <div class="row">
-      <div class="input-field inline col s12 m6">
-        <input id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name|title }}" type="text" maxlength="40" class="validate"
-          required>
-        <label for="recipe_name">Recipe Name</label>
+  <div class="row card-panel grey lighten-5 item-radius z-depth-2">
+    <h3 class="center-align green-text">{{ recipe.recipe_name|title }}</h3>
+    <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">
+      <div class="row">
+        <div class="input-field inline col s12 m6">
+          <input id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name|title }}" type="text" maxlength="40"
+            class="validate" required>
+          <label for="recipe_name">Recipe Name</label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field inline col s12 m6">
-        <textarea id="recipe_description" name="recipe_description" minlength="25" maxlength="250"
-          class="materialize-textarea validate" required>
+      <div class="row">
+        <div class="input-field inline col s12 m6">
+          <textarea id="recipe_description" name="recipe_description" minlength="25" maxlength="250"
+            class="materialize-textarea validate" required>
           {{- recipe.recipe_description|title -}}
         </textarea>
-        <label for="recipe_description">Recipe Description</label>
+          <label for="recipe_description">Recipe Description</label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field inline col s6 m3">
-        <input id="prep_time" name="prep_time" value="{{ recipe.prep_time }}" type="number" min="1" class="validate"
-          required>
-        <label for="prep_time">Preparation Time <em><small>(in mintues)</small></em></label>
+      <div class="row">
+        <div class="input-field inline col s6 m3">
+          <input id="prep_time" name="prep_time" value="{{ recipe.prep_time }}" type="number" min="1" class="validate"
+            required>
+          <label for="prep_time">Preparation Time <em><small>(in mintues)</small></em></label>
+        </div>
+        <div class="input-field inline col s6 m3">
+          <input id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" type="number" min="1"
+            class="validate" required>
+          <label for="cooking_time">Cooking Time <em><small>(in mintues)</small></em></label>
+        </div>
       </div>
-      <div class="input-field inline col s6 m3">
-        <input id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" type="number" min="1"
-          class="validate" required>
-        <label for="cooking_time">Cooking Time <em><small>(in mintues)</small></em></label>
+      <div class="row">
+        <div class="input-field inline col s6 m3">
+          <input id="servings" name="servings" value="{{ recipe.servings }}" type="number" min="1" class="validate"
+            required>
+          <label for="servings">Serves <em><small>(people)</small></em></label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field inline col s6 m3">
-        <input id="" name="servings" value="{{ recipe.servings }}" type="number" min="1" class="validate" required>
-        <label for="servings">Serves <em><small>(people)</small></em></label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12 m6">
-        <select id="category_id" name="category_id" class="validate" required>
-          <option value="" disabled>Select a Category</option>
-          {% for category in categories %}
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <select id="category_id" name="category_id" class="validate" required>
+            <option value="" disabled>Select a Category</option>
+            {% for category in categories %}
             {% if category.id == recipe.category_id | int %}
             <option value="{{ category.id}}" selected>{{ category.category_name}}</option>
             {% else %}
-            <option value="{{ category.id}}">{{ category.category_name|title  }}</option>
+            <option value="{{ category.id}}">{{ category.category_name|title }}</option>
             {% endif %}
-          {% endfor %}
-        </select>
-        <label for="category_id">Category</label>
+            {% endfor %}
+          </select>
+          <label for="category_id">Category</label>
+        </div>
       </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field inline col s12">
-            <textarea id="ingredients" name="ingredients" minlength="25" class="materialize-textarea validate" required>
+      <br>
+      <div class="row">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field inline col s12">
+              <textarea id="ingredients" name="ingredients" minlength="25" class="materialize-textarea validate"
+                required>
               {{- recipe.ingredients -}}
             </textarea>
-            <label for="ingredients">Ingredients <em><small>(please use one line per ingredient)</small></em></label>
+              <label for="ingredients">Ingredients <em><small>(please use one line per ingredient)</small></em></label>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field inline col s12">
-            <textarea id="method" name="method" minlength="25" class="materialize-textarea validate" required>
+      <div class="row">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field inline col s12">
+              <textarea id="method" name="method" minlength="25" class="materialize-textarea validate" required>
               {{- recipe.method -}}
             </textarea>
-            <label for="method">Method <em><small>(please use one line per step)</small></em></label>
+              <label for="method">Method <em><small>(please use one line per step)</small></em></label>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field inline col s12">
-        <input id="image_url" name="image_url" value="{{ recipe.image_url }}" type="text" class="validate">
-        <label for="image_url">Recipe Image URL</label>
+      <div class="row">
+        <div class="input-field inline col s12">
+          <input id="image_url" name="image_url" value="{{ recipe.image_url }}" type="text" class="validate">
+          <label for="image_url">Recipe Image URL</label>
+        </div>
       </div>
-    </div>
-    
-    <div class="row">
-      <div class="col s12 center-align">
-        <!-- submit button -->
-        <button type="submit" class="waves-effect waves-light btn-small green item-radius">
-          Update <i class="fas fa-edit right"></i>
-        </button>
-        <!-- cancel button -->
-        <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}"
-          class="waves-effect waves-light btn-small red accent-4 item-radius">
-          Cancel <i class="fas fa-times-circle right"></i>
-        </a>
+
+      <div class="row">
+        <div class="col s12 center-align">
+          <!-- submit button -->
+          <button type="submit" class="waves-effect waves-light btn-small green item-radius">
+            Update <i class="fas fa-edit right"></i>
+          </button>
+          <!-- cancel button -->
+          <a href="{{ url_for('view_recipe', recipe_id=recipe._id) }}"
+            class="waves-effect waves-light btn-small red accent-4 item-radius">
+            Cancel <i class="fas fa-times-circle right"></i>
+          </a>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 </div>
 {% endblock %}
