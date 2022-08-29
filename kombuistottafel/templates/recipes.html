@@ -83,11 +83,13 @@
                       </tr>
                       <tr>
                         <th>Category</th>
+                        <td>
                         {% for category in categories %}
                         {% if category.id == recipe.category_id | int %}
-                        <td>{{ category.category_name|title }}</td>
+                        {{ category.category_name|title }}
                         {% endif %}
                         {% endfor %}
+                      </td>
                       </tr>
                       <tr>
                         <th>Added By</th>
@@ -111,5 +113,6 @@
         {% endif %}
     </div>
   </div>
+</div>
 </div>
 {% endblock %}
