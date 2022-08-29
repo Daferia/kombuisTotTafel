@@ -36,16 +36,11 @@ View deployed site: [Kombuis tot Tafel](https://kombuis-tot-tafel.herokuapp.com/
 
 4. [Testing](#testing)
 
-5. [Deployment](#deployment)  
-    * [Deployment Heroku](#deployment-to-heroku)
-    * [Steps To Use This Project](#steps-to-use-this-project)  
+5. [Deployment](#deployment)    
 
 6. [Credits](#credits)  
     * [Content](#content)
     * [Media](#media)  
-
-7. [Acknowledgements](#acknowledgements)  
-    * [Team Members](#team-members)
 
 - - -
 
@@ -170,7 +165,7 @@ I chose to remove the logo in the end due to sizing issues and time constraints.
 
 HTML, CSS, Javascript, Python, Materialize, Heroku
 
-### Frameworks, libraries & Program Used
+### **Frameworks, libraries & Program Used**
 
 * [Balsamiq](https://balsamiq.com/) - To create wireframes.
 * [Git](https://git-scm.com/) - For version control.
