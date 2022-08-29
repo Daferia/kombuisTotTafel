@@ -4,76 +4,79 @@
 <div class="container">
   <div class="row card-panel grey lighten-5 item-radius z-depth-2">
     <h2 class="green-text center-align">{{ recipe.recipe_name|title }}</h2>
-    
-  <!-- Edit and Print buttons -->
+
+    <!-- Edit and Print buttons -->
     <div class="row">
       <div class="col s12 center-align">
-        <a class="waves-effect waves-light btn-small green item-radius" href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">Edit <i class="fa-solid fa-pencil"></i></a>
-        
+        <a class="waves-effect waves-light btn-small green item-radius"
+          href="{{ url_for('edit_recipe', recipe_id=recipe._id) }}">Edit <i class="fa-solid fa-pencil"></i></a>
+
         <!-- Defensive Modal Trigger -->
-        <a class="waves-effect waves-light btn-small modal-trigger red item-radius" href="#defensive-delete">Delete <i class="fa-solid fa-times"></i></a>
-            <!-- Modal Structure -->
-            <div id="defensive-delete" class="modal modal-fixed-footer modal-delete-resize item-radius">
-              <div class="modal-content">
-                <h6 class="red-text">{{ recipe.recipe_name|title }}</h6>
-                <p>Are you sure you want you delete this recipe? <em><small>This cannot be undone!</small></em></p>
-                <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}" class="modal-close waves-effect red btn-small item-radius">Delete <i class="fa-solid fa-times"></i></a>
-              </div>
-            </div>
-        <a class="waves-effect waves-light btn-small green item-radius" onclick="window.print()">Print <i class="fa-solid fa-print"></i></a>
+        <a class="waves-effect waves-light btn-small modal-trigger red item-radius" href="#defensive-delete">Delete <i
+            class="fa-solid fa-times"></i></a>
+        <!-- Modal Structure -->
+        <div id="defensive-delete" class="modal modal-fixed-footer modal-delete-resize item-radius">
+          <div class="modal-content">
+            <h6 class="red-text">{{ recipe.recipe_name|title }}</h6>
+            <p>Are you sure you want you delete this recipe? <em><small>This cannot be undone!</small></em></p>
+            <a href="{{ url_for('delete_recipe', recipe_id=recipe._id) }}"
+              class="modal-close waves-effect red btn-small item-radius">Delete <i class="fa-solid fa-times"></i></a>
+          </div>
+        </div>
+        <a class="waves-effect waves-light btn-small green item-radius" onclick="window.print()">Print <i
+            class="fa-solid fa-print"></i></a>
       </div>
     </div>
-  <div class="row">
-    <div style="overflow-x:auto;" class="col s12">
-      <table class="table centered recipe-details">
-        <thead>
-          <tr>
-            <th>Prep Time <em><small>(in minutes)</small></em></th>
-            <th>Cooking Time <em><small>(in minutes)</small></em></th>
-            <th>Serves</th>
-            <th>Category</th>
-            <th>Added By</th>
+    <div class="row">
+      <div style="overflow-x:auto;" class="col s12">
+        <table class="table centered recipe-details">
+          <thead>
+            <tr>
+              <th>Prep Time <em><small>(in minutes)</small></em></th>
+              <th>Cooking Time <em><small>(in minutes)</small></em></th>
+              <th>Serves</th>
+              <th>Category</th>
+              <th>Added By</th>
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ recipe.prep_time }}</td>
-            <td>{{ recipe.cooking_time }}</td>
-            {% if recipe.servings == "1" %}
-            <td>{{ recipe.servings }} person</td>
-            {% else %}
-            <td>{{ recipe.servings }} people</td>
-            {% endif %}
-            <td>
-            {% for category in categories %}
-            {% if category.id == recipe.category_id | int %}
-            {{ category.category_name|title }}
-            {%endif%}
-            {%endfor%}</td>
-            <td>{{ recipe.added_by }}</td>
-          </tr>
-        </tbody>
-      </table>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ recipe.prep_time }}</td>
+              <td>{{ recipe.cooking_time }}</td>
+              {% if recipe.servings == "1" %}
+              <td>{{ recipe.servings }} person</td>
+              {% else %}
+              <td>{{ recipe.servings }} people</td>
+              {% endif %}
+              <td>
+                {% for category in categories %}
+                {% if category.id == recipe.category_id | int %}
+                {{ category.category_name|title }}
+                {%endif%}
+                {%endfor%}</td>
+              <td>{{ recipe.added_by }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <div class="row vertical-align center-align card-panel grey lighten-5 item-radius z-depth-2">
-    <div class="col s12">
-      {% if recipe.image_url %}
-      <img class="s12 activator materialboxed z-depth-3 recipe-img"
-        src="{{ recipe.image_url }}"
-        alt="Photo of a {{ recipe.recipe_name|lower }}">
+    <div class="row vertical-align center-align card-panel grey lighten-5 item-radius z-depth-2">
+      <div class="col s12">
+        {% if recipe.image_url %}
+        <img class="s12 activator materialboxed z-depth-3 recipe-img" src="{{ recipe.image_url }}"
+          alt="Photo of a {{ recipe.recipe_name|lower }}">
         {% else %}
-      <img class="activator materialboxed z-depth-3 recipe-img"
-       src="{{url_for('static',filename='images/thought-catalog-fnztlIb52gU-unsplash.jpg') }}" 
-      alt="Photo of empty plate with a sad face">
-      {% endif %}
+        <img class="activator materialboxed z-depth-3 recipe-img"
+          src="{{url_for('static',filename='images/thought-catalog-fnztlIb52gU-unsplash.jpg') }}"
+          alt="Photo of empty plate with a sad face">
+        {% endif %}
+      </div>
+      <div class="col s12 m6">
+        <p>{{ recipe.recipe_description }}</p>
+      </div>
     </div>
-    <div class="col s12 m6">
-      <p>{{ recipe.recipe_description }}</p>
-    </div>
-  </div>
-  <div class="row card-panel grey lighten-5 item-radius z-depth-2">
+    <div class="row card-panel grey lighten-5 item-radius z-depth-2">
       <div class="col s12 m6 ">
         <h4><strong>Ingredients</strong></h4>
         <ul>
@@ -81,8 +84,8 @@
           <li class="list-spacing">{{ item }}</li>
           {% endfor %}
         </ul>
- 
-    </div>
+
+      </div>
       <div class="col s12 m6">
         <h4><strong>Method</strong></h4>
         <ol>
@@ -92,8 +95,6 @@
         </ol>
       </div>
     </div>
-    </div>
   </div>
-</div>
 </div>
 {% endblock %}
