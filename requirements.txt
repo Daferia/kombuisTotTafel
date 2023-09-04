@@ -4,13 +4,13 @@ dnspython==2.2.1
 Flask==2.2.5
 Flask-PyMongo==2.3.0
 Flask-SQLAlchemy==2.5.1
-greenlet==1.1.2
+# greenlet==1.1.2
 importlib-metadata==4.12.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.1
-psycopg2==2.9.3
+# psycopg2==2.9.3
 pymongo==4.2.0
 SQLAlchemy==1.4.39
-Werkzeug==2.2.1
+Werkzeug==2.2.2
 zipp==3.8.1
